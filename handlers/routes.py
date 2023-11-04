@@ -14,8 +14,9 @@ def configure_routes(app):
     def set_cookie():
         session_id = str(uuid.uuid4())
         response = make_response("Setting a cookie")
-        response.set_cookie(app.config["SESSION_COOKIE_NAME"], str(session_id))
+        response.set_cookie(app.config["SESSION_COOKIE_NAME"], session_id)
         return response
+
 
 
     @app.route('/clearcookie')
@@ -87,7 +88,7 @@ def configure_routes(app):
     @app.route('/')
     def index():
         return send_from_directory('.', 'index.html')
-        
+
     @app.route('/recettes')
     def recettes():
         return render_template('recettes.html')
@@ -179,18 +180,18 @@ def configure_routes(app):
 
 
     events = []
+
+
     class Event(Resource):
         def get(self, event_id):
             event = next((event for event in events if event['id'] == event_id), None)
-            if event:
-                return event, 200
-            else:
-                return "Événement non trouvé", 404
+            return (event, 200) if event else ("Événement non trouvé", 404)
 
         def post(self):
             new_event = request.get_json()
             events.append(new_event)
             return new_event, 201
+
 
     api.add_resource(Event, "/event", "/event/<string:event_id>")
 
@@ -232,6 +233,3 @@ def configure_routes(app):
         cur.close()
 
         return 'Événement sauvegardé', 201
-
-        # Register the api with the Flask app
-        api.init_app(app)
