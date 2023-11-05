@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="static/css/dashboard.css" />
     <link rel="stylesheet" href="static/css/ingredients.css" />
       <link rel="stylesheet" href="static/css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script>
 
 
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"/>
@@ -33,25 +34,25 @@
           <span class="tooltip">Index1</span>
         </li>
         <li>
-          <a href="/user.html">
+          <a href="/login.html" id="login-link">
             <i class="bx bx-user"></i>
-            <span class="links_name">User</span>
+            <span class="links_name">login</span>
           </a>
-          <span class="tooltip">User</span>
+          <span class="tooltip">login</span>
         </li>
         <li>
-          <a href="/stocks.html">
+          <a href="/todolist.html" id="todolist-link">
             <i class="bx bx-chat"></i>
-            <span class="links_name">Stocks</span>
+            <span class="links_name">To Do List</span>
           </a>
-          <span class="tooltip">Stocks</span>
+          <span class="tooltip">To Do List</span>
         </li>
         <li>
           <a href="/recettes.html" id="recettes-link">
             <i class="bx bx-folder"></i>
-            <span class="links_name">Recettes </span>
+            <span class="links_name">Receipt </span>
           </a>
-          <span class="tooltip">Creez vos recettes</span>
+          <span class="tooltip">Creates your receipts</span>
         </li>
         <li>
           <a href="/ingredients.html" id="ingredients-link">
@@ -65,14 +66,14 @@
             <i class="bx bx-heart"></i>
             <span class="links_name">Calendar</span>
           </a>
-          <span class="tooltip">Planifiez vos menus</span>
+          <span class="tooltip">Meal Planning</span>
         </li>
         <li>
           <a href="/calculator.html" id="calculator-link">
             <i class="bx bx-cog"></i>
             <span class="links_name">Calculator</span>
           </a>
-          <span class="tooltip">calculer</span>
+          <span class="tooltip">calculator</span>
         </li>
       </ul>
     </div>
@@ -138,12 +139,30 @@ $(document).ready(function () {
     $("#calendar-link").click(function(e) {
         handleLinkClick(e, "/calendar");
     });
-   $("#stocks-link").click(function(e) {
-        handleLinkClick(e, "/stocks");
+   $("#todolist-link").click(function(e) {
+        handleLinkClick(e, "/todolist");
     }); 
-   $("#user-link").click(function(e) {
-        handleLinkClick(e, "/user");
+   $("#login-link").click(function(e) {
+        handleLinkClick(e, "/login");
     });
+    
+document.addEventListener("DOMContentLoaded", () => {
+  // Ici, 'auth_token' est une clé hypothétique où le token est stocké
+  const authToken = localStorage.getItem('auth_token');
+  const sidebar = document.querySelector('.sidebar');
+
+  // Vérifiez si l'utilisateur est connecté
+  if (authToken) {
+    // L'utilisateur est connecté
+    const username = "Nom d'utilisateur"; // Vous obtiendriez ceci du token ou d'une requête au serveur
+    sidebar.innerHTML = `<p>Bonjour, ${username}</p>`; // Ajoutez d'autres informations ou actions ici
+  } else {
+    // L'utilisateur n'est pas connecté
+    sidebar.innerHTML = `<p>Vous n'êtes pas connecté.</p>`;
+  }
+});
+
+    
 });
 </script>
 </body>
