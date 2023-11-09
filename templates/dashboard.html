@@ -150,24 +150,7 @@ $(document).ready(function () {
         handleLinkClick(e, "/login");
     });
     
-document.addEventListener("DOMContentLoaded", () => {
-  // Ici, 'auth_token' est une clé hypothétique où le token est stocké
-  const authToken = localStorage.getItem('auth_token');
-  const sidebar = document.querySelector('.sidebar');
 
-  // Vérifiez si l'utilisateur est connecté
-  if (authToken) {
-    // L'utilisateur est connecté
-    const username = "Nom d'utilisateur"; // Vous obtiendriez ceci du token ou d'une requête au serveur
-    sidebar.innerHTML = `<p>Bonjour, ${username}</p>`; // Ajoutez d'autres informations ou actions ici
-  } else {
-    // L'utilisateur n'est pas connecté
-    sidebar.innerHTML = `<p>Vous n'êtes pas connecté.</p>`;
-  }
-});
-
-    
-});
 </script>
 </body>
 </html>
