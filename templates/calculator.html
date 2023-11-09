@@ -66,276 +66,139 @@ p {
     font-weight: bold;
 }
 </style>
- <form id="recipe-calculator-desktop">
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="3">Recette</th>
-                    <th colspan="3">Méthodes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="3">
-                        <label for="f_name"><strong>Nom de la recette</strong></label>
-                        <input type="text" id="f_name" name="f_name">
-                    </td>
-                    <td colspan="3" rowspan="2">
-                        <label for="method"><strong>Ajoutez votre méthode</strong></label>
-                        <textarea id="method" name="method"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <label for="f_servings"><strong>Nombre de portions</strong></label>
-                        <input type="number" name="f_servings" min="1" value="1">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6"><h1>Ingrédients</h1></td>
-                </tr>
-                <tr class="ingredient-heading">
-                    <td colspan="2" class="col-33">Nom de l'ingrédient</td>
-                    <td class="col-16">Qté achetée</td>
-                    <td class="col-16">Coût des marchandises</td>
-                    <td class="col-16">Qté utilisée dans la recette</td>
-                    <td class="col-16">Coût total</td>
-                </tr>
-                <tr id="row_1" class="ingred-row">
-                    <td colspan="2">
-                        <input type="text" name="f_ingredients_1" placeholder="Nom de l'ingrédient">
-                    </td>
-                    <td>
-                        <input type="number" step="any" name="f_quantity_1" placeholder="g / mL / each" min="0" data-row-qty>
-                    </td>
-                    <td>
-                        <input type="number" step="any" name="f_cost_1" placeholder="$" min="0" data-row-cost>
-                    </td>
-                    <td>
-                        <input type="number" step="any" name="f_used_1" placeholder="g / mL / each" min="0" data-row-used>
-                    </td>
-                    <td class="total-cost">
-                        <input type="text" name="f_total_1" placeholder="$0.00" readonly data-cost>
-                    </td>
-                </tr>
-                <!-- Répétez ces lignes pour d'autres ingrédients -->
-                <tr>
-                    <td colspan="6">Coût total de la recette :</td>
-                    <td id="grandTotal" placeholder="$0.00">$0.00</td>
-                </tr>
-            </tfoot>
-        </table>
-        <button type="button" data-add>+ Ajouter un ingrédient supplémentaire</button>
-        <button type="submit">Envoyer</button>
-    </form>
-<!-- ... autres balises HTML ... -->
-<div>
-    <ul>
-    {% for ingredient in recipe.ingredients %}
-      <li>{{ ingredient }}</li>
-    {% endfor %}
-    </ul>
-    <h1>Recette Sélectionnée</h1>
+ <h1>Calcul du prix d'une recette</h1>
+  <label for="recipe-select">Sélectionnez une recette :</label>
+  <select id="recipe-select">
+    <!-- Les options de recettes seront ajoutées dynamiquement via l'API -->
+  </select>
+  <button id="create-recipe-button">Créer une nouvelle recette</button>
+  <h2>Ingrédients</h2>
+    <button id="add-ingredient-button">Ajouter un ingrédient</button>
 
-<ul>
-<h1>{{ recipe.recipe_name }}</h1>
-<ul>
-{% for ingredient in recipe.ingredients %}
-    <li>{{ ingredient.strip() }}</li>
-{% endfor %}
-</ul>
-<p>{{ recipe.instructions }}</p>
-
-
-</div>
-<!-- ... autres balises HTML ... -->
-
-    <script>
-    let rowNumber = 1; // On commence avec une ligne
-
-    // Ajout d'ingrédient supplémentaire
-    document.querySelector("button[type='button']").addEventListener('click', function() {
-        rowNumber++;
-        let newRow = `
-        <tr id="row_${rowNumber}" class="ingred-row">
-            <td colspan="2">
-                <input type="text" name="f_ingredients_${rowNumber}" placeholder="Nom de l'ingrédient">
-            </td>
-            <td>
-                <input type="number" step="any" name="f_quantity_${rowNumber}" min="0">
-                <select name="f_unit_${rowNumber}">
-                    <option value="g">g</option>
-                    <option value="mg">mg</option>
-                    <option value="L">L</option>
-                    <option value="mL">mL</option>
-                    <option value="kilo">kilo</option>
-                </select>
-            </td>
-            <td>
-                <input type="number" step="any" name="f_cost_${rowNumber}" placeholder="€" min="0">
-            </td>
-            <td>
-                <input type="number" step="any" name="f_used_${rowNumber}" min="0">
-                <select name="f_used_unit_${rowNumber}">
-                    <option value="g">g</option>
-                    <option value="mg">mg</option>
-                    <option value="L">L</option>
-                    <option value="mL">mL</option>
-                    <option value="kilo">kilo</option>
-                </select>
-            </td>
-            <td>
-                <input type="text" name="f_total_${rowNumber}" placeholder="€0.00" readonly>
-            </td>
-        </tr>`;
-
-        let tbody = document.querySelector("tbody");
-        tbody.insertAdjacentHTML('beforeend', newRow);
-    });
-
-    // Lorsqu'un ingrédient est sélectionné, mis à jour du coût des marchandises
-    document.querySelectorAll("select[name^='f_ingredients']").forEach(select => {
-        select.addEventListener('change', function(event) {
-            const selectedRowNumber = event.target.name.match(/\d+/)[0]; // Obtenir le numéro de la ligne
-            const ingredientName = event.target.value;
-            const costInput = document.querySelector(`input[name="f_cost_${selectedRowNumber}"]`);
-            costInput.value = getIngredientPrice(ingredientName);
-            calculateTotal();
-        });
-    });
-
-    // changements dans les quantités et mis à jour le coût total
-    document.querySelectorAll("input[name^='f_quantity']").forEach(input => {
-        input.addEventListener('input', calculateTotal);
-    });
-
-    document.querySelectorAll("input[name^='f_used']").forEach(input => {
-        input.addEventListener('input', calculateTotal);
-    });
-
-    // Soumission du formulaire pour le calcul
-    document.getElementById("recipe-calculator-desktop").addEventListener('submit', function(event) {
-        event.preventDefault();
-        calculateTotal();
-    });
-
-    // Fonction pour calculer le coût total
-    function calculateTotal() {
-        let grandTotal = 0;
-        for (let i = 1; i <= rowNumber; i++) {
-            let quantity = parseFloat(document.querySelector(`[name="f_quantity_${i}"]`).value);
-            let unit = document.querySelector(`[name="f_unit_${i}"]`).value;
-            let cost = parseFloat(document.querySelector(`[name="f_cost_${i}"]`).value);
-            let used = parseFloat(document.querySelector(`[name="f_used_${i}"]`).value);
-
-            // Conversion d'unité
-            switch (unit) {
-                case "mg":
-                    quantity /= 1000; // Convertir mg en g
-                    break;
-                case "L":
-                    quantity *= 1000; // Convertir L en mL
-                    break;
-                case "kilo":
-                    quantity *= 1000; // Convertir kilo en g
-                    break;
+  <table id="recipeDetailsTable" class="display" style="width:100%">
+    <thead>
+      <tr>
+        <th>Nom de l'ingrédient</th>
+        <th>Quantité utilisée</th>
+        <th>Unité de mesure</th>
+        <th>Coût des marchandises</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <h2>Prix total de la recette :</h2>
+  <input type="text" id="total-price" readonly>
+  <button id="calculate-button">Calculer le prix</button>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script>
+    // Fonction pour mettre à jour la table avec les détails d'une recette
+    async function updateTableWithRecipe(recipeId) {
+      const table = $('#recipeDetailsTable').DataTable();
+      table.clear(); // Nettoyer la table pour les nouvelles données
+      try {
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
+        const data = await response.json();
+        if (data.meals) {
+          const meal = data.meals[0]; // Prendre le premier résultat
+          // Supposons que les ingrédients et les mesures sont dans des champs séparés comme `strIngredient1` et `strMeasure1`
+          for (let i = 1; i <= 20; i++) { // TheMealDB a jusqu'à 20 ingrédients
+            if (meal[`strIngredient${i}`]) { // Si l'ingrédient existe
+              table.row.add([
+                `<input type="text" class="ingredient-input" value="${meal[`strIngredient${i}`]}">`, // Champ de saisie pour le nom de l'ingrédient
+                `<input type="text" class="quantity-input" value="${meal[`strMeasure${i}`]}">`, // Champ de saisie pour la quantité
+                `<input type="text" class="unit-input" value="unité">`, // Champ de saisie pour l'unité de mesure
+                `<input type="text" class="cost-input" value="0.00">` // Champ de saisie pour le coût des marchandises
+              ]).draw(false);
             }
-
-            if (!isNaN(quantity) && !isNaN(cost) && !isNaN(used)) {
-                let total = (cost / quantity) * used;
-                document.querySelector(`[name="f_total_${i}"]`).value = `€${total.toFixed(2)}`;
-                grandTotal += total;
-            }
+          }
         }
-
-        // Mis à jour du coût total 
-        document.getElementById("grandTotal").textContent = `€${grandTotal.toFixed(2)}`;
+      } catch (error) {
+        console.error("Erreur lors de la récupération des détails de la recette: ", error);
+      }
     }
 
-    // Charger les détails de la recette
-    // Fonction pour charger les détails de la recette depuis le stockage local
-    function loadRecipeDetails() {
-        const recipeDetails = JSON.parse(localStorage.getItem('recipeDetails'));
-        if (recipeDetails) {
-            document.getElementById("f_name").value = recipeDetails.name;
-            document.getElementById("method").value = recipeDetails.method;
-
-            recipeDetails.ingredients.forEach((ingredient, index) => {
-                if (index >= 1) {
-                    addNewRow();
-                }
-                document.querySelector(`[name="f_ingredients_${index+1}"]`).value = ingredient.name;
-                document.querySelector(`[name="f_quantity_${index+1}"]`).value = ingredient.quantity;
-                document.querySelector(`[name="f_cost_${index+1}"]`).value = ingredient.cost;
-                document.querySelector(`[name="f_used_${index+1}"]`).value = ingredient.used;
-            });
-        }
-    }
-// Ajoutez des écouteurs d'événements pour ajouter des lignes, soumettre le formulaire, etc.
-    document.querySelector("button[type='button']").addEventListener('click', addNewRow);
-    document.getElementById("recipe-calculator-desktop").addEventListener('submit', function(event) {
-        event.preventDefault();
-        let recipeDetails = {
-        name: document.getElementById("f_name").value,
-        method: document.getElementById("method").value,
-        ingredients: []
-    };
-
-    for (let i = 1; i <= rowNumber; i++) {
-        let ingredient = {
-            name: document.querySelector(`[name="f_ingredients_${i}"]`).value,
-            quantity: document.querySelector(`[name="f_quantity_${i}"]`).value,
-            cost: document.querySelector(`[name="f_cost_${i}"]`).value,
-            used: document.querySelector(`[name="f_used_${i}"]`).value,
-        };
-        recipeDetails.ingredients.push(ingredient);
+    // Fonction pour créer une nouvelle recette
+    function createNewRecipe() {
+      const table = $('#recipeDetailsTable').DataTable();
+      table.clear().draw();
+      table.row.add([
+        '<input type="text" class="ingredient-input">', // Champ de saisie pour le nom de l'ingrédient
+        '<input type="text" class="quantity-input">', // Champ de saisie pour la quantité
+        '<input type="text" class="unit-input">', // Champ de saisie pour l'unité de mesure
+        '<input type="text" class="cost-input">' // Champ de saisie pour le coût des marchandises
+      ]).draw(false);
     }
 
-    localStorage.setItem('recipeDetails', JSON.stringify(recipeDetails));
-});
-    // Appeler la fonction lors du chargement de la page
-    document.addEventListener('DOMContentLoaded', loadRecipeDetails);
-
-    // Appeler la fonction lors de la soumission du formulaire
-    document.getElementById("recipe-calculator-desktop").addEventListener('submit', function(event) {
-        event.preventDefault();
-        calculateTotal();
-    })
-    // Récupérer les ingrédients sélectionnés depuis le stockage local
-const selectedIngredients = JSON.parse(localStorage.getItem("selectedIngredients"));
-
-// Utiliser les ingrédients sélectionnés pour effectuer les calculs nécessaires
-if (selectedIngredients) {
-    for (const ingredient of selectedIngredients) {
-        const newRow = $("<tr>");
-        newRow.append('<td><i class="fas fa-edit editIcon"></i> <i class="fas fa-trash-alt deleteIcon"></i></td>');
-        newRow.append(`<td>${ingredient.name}</td>`);
-        newRow.append(`<td>${ingredient.unit_cost}</td>`);
-        newRow.append(`<td>${ingredient.stock_quantity}</td>`);
-        $("#ingredientTable tbody").append(newRow);
+    // Fonction pour récupérer la liste des recettes depuis l'API
+    async function getRecipeList() {
+      try {
+        const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=c');
+        const data = await response.json();
+        return data.meals;
+      } catch (error) {
+        console.error("Erreur lors de la récupération de la liste des recettes: ", error);
+        return [];
+      }
     }
-}
 
-// Effacer les ingrédients sélectionnés du stockage local après les avoir utilisés
-localStorage.removeItem("selectedIngredients");
+    // Fonction pour afficher la liste des recettes dans la liste déroulante
+    function displayRecipeList(recipes) {
+      const recipeSelect = document.getElementById('recipe-select');
+      recipes.forEach(recipe => {
+        const option = document.createElement('option');
+        option.value = recipe.idMeal;
+        option.text = recipe.strMeal;
+        recipeSelect.add(option);
+      });
+    }
 
+    // Fonction pour calculer le prix total de la recette
+    function calculateTotalPrice() {
+      const table = $('#recipeDetailsTable').DataTable();
+      const rows = table.rows().data();
+      let totalPrice = 0;
+      rows.each(row => {
+        const quantity = parseFloat(row[1]);
+        const cost = parseFloat(row[3]);
+        totalPrice += quantity * cost;
+      });
+      $('#total-price').val(totalPrice.toFixed(2));
+    }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const response = await fetch('/get_selected_recipe');
-        if (response.ok) {
-            const recipe = await response.json();
-            // Utilisez les données de la recette ici pour les afficher sur la page
-            // par exemple :
-            document.getElementById('recipe-name').textContent = recipe.name;
-            document.getElementById('recipe-ingredients').innerHTML = recipe.ingredients.map(
-                ingredient => `<li>${ingredient}</li>`
-            ).join('');
-        } else {
-            console.error('Failed to fetch recipe:', response.statusText);
-        }
-    });
-</script>
- 
+    function addIngredient() {
+      const table = $('#recipeDetailsTable').DataTable();
+      table.row.add([
+        '<input type="text" class="ingredient-input">', // Champ de saisie pour le nom de l'ingrédient
+        '<input type="text" class="quantity-input">', // Champ de saisie pour la quantité
+        '<input type="text" class="unit-input">', // Champ de saisie pour l'unité de mesure
+        '<input type="text" class="cost-input">' // Champ de saisie pour le coût des marchandises
+      ]).draw(false);
+    }
     
+    $(document).ready(async function() {
+      const recipeSelect = document.getElementById('recipe-select');
+      const createRecipeButton = document.getElementById('create-recipe-button');
+      const recipes = await getRecipeList();
+      displayRecipeList(recipes);
+    
+    $('#add-ingredient-button').click(addIngredient);
+
+      // Événement lors de la sélection d'une recette
+      recipeSelect.addEventListener('change', async function() {
+        const recipeId = recipeSelect.value;
+        updateTableWithRecipe(recipeId);
+      });
+
+      // Événement lors du clic sur le bouton "Créer une nouvelle recette"
+      createRecipeButton.addEventListener('click', createNewRecipe);
+
+      // Initialisation de la table DataTable
+      $('#recipeDetailsTable').DataTable();
+
+// Événement lors du clic sur le bouton "Calculer le prix"
+      $('#calculate-button').click(calculateTotalPrice);
+    });
+  </script>
 </body>
 </html>
