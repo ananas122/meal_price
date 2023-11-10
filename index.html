@@ -6,7 +6,13 @@
   <title>Meal Price - Home</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ775iX9fUji1mZm61y4tnP3VoAira3BnkM7" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+body {
+  font-family: 'Roboto', sans-serif; /* Applique la police Roboto */
+}
+
 /* Styles for Header */
 #navbar {
   background-color: white;
@@ -73,6 +79,12 @@
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
+.features-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; /* Ajoutez ceci si vous voulez que les éléments passent à la ligne sur les petits écrans */
+}
 
 
 .feature img {
@@ -106,7 +118,7 @@
 .about-project {
   background-color: #ffff; /* Couleur de fond vert clair */
   padding: 20px;
-  text-align: center; /* Centrer le texte */
+  text-align: left; /* Centrer le texte */
 }
 
 .about-project h2 {
@@ -154,7 +166,8 @@
   <section id="features">
     <h2>Why Choose Meal Price?</h2>
     <p>Meal Price is not just a recipe app; it's a complete solution for managing your diet while respecting your budget.</p>
-
+      
+    <div class="features-container">
     <div class="feature">
 <img src="static/img-src/calendar.png" alt="Calendar">
       <h2>Meal Planning</h2>
@@ -172,6 +185,7 @@
       <h2>Recipe Display</h2>
       <p>Our user-friendly interface lets you easily browse thousands of recipes, filter them based on various criteria, and directly add them to your calendar or shopping list.</p>
     </div>
+  </div>
   </section>
   
 
@@ -196,31 +210,30 @@
       </p>
 
       <h3>Team Members</h3>
-      <ul>
-        <li>
-          <h2 class="col-lg-15">DOUIOU SAMIRA </h2>
+      
+        
+          <h2 class="col-lg-15"> </h2>
           <div class="display-4 lh-2 mb-4">
             <div class="social-links">
-              <li>
-                <a href="https://www.linkedin.com/in/www.linkedin.com/in/samira-douiou-7063b1273/">
+            
+                <a href="/www.linkedin.com/in/samira-douiou-7063b1273/">
                   <img src="static/img-src/lin.png" alt="LinkedIn Membre 1" width="80" height="80">
                 </a>
-              </li>
-              <li>
+             
                 <a href="https://github.com/ananas122">
                   <img src="static/img-src/github.png" alt="GitHub Membre 1" width="80" height="80">
                 </a>
-              </li>
-              <li>
+              
+              
                 <a href="https://twitter.com/Nono61654482">
                   <img src="static/img-src/twit.png" alt="Twitter Membre 1" width="80" height="80">
                 </a>
-              </li>
+             
             </div>
           </div>
-        </li>
+        
         <!-- Repeat the same format for other team members -->
-      </ul>
+      
 
       <h3>Project's Github Repository</h3>
       <p>
