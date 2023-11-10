@@ -11,7 +11,6 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- FullCalendar CSS et JS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
     <style>
 
         #recipeImages {
@@ -122,11 +121,8 @@
     <div id="recipeIngredients"></div>
     <div id="recipeInstructions"></div>
     <div id="recipeImages" class="d-flex flex-wrap justify-content-center gap-2"></div>
-    <form id="recipeForm" action="/set_selected_recipe" method="POST">
         <!-- Vos champs de formulaire ici -->
-        <button type="submit" class="btn btn-primary mt-3" id="goToCalculatorButton">Sélectionner cette recette</button>
-    </form>
-    <a href="{{ url_for('calculator') }}" id="calculator-link-from-recettes" class="btn btn-secondary mt-3">Aller vers Calculatrice</a>
+   
 </div>
 
     </div>
@@ -164,34 +160,31 @@
             }
         };
 
-        const showRecipeDetails = async (recipeId) => {
-            recipeImages.innerHTML = '';
-            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
-            const data = await response.json();
+        // Modifiez la fonction showRecipeDetails pour ne plus gérer la sélection de recette
+    const showRecipeDetails = async (recipeId) => {
+    recipeImages.innerHTML = '';
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
+    const data = await response.json();
 
-            if (data.meals && data.meals[0]) {
-                const meal = data.meals[0];
-                recipeName.textContent = meal.strMeal;
-                recipeIngredients.innerHTML = `<h4>Ingrédients:</h4> ${getIngredientsList(meal)}`;
-                recipeInstructions.innerHTML = `<h4>Instructions:</h4> ${meal.strInstructions}`;
+    if (data.meals && data.meals[0]) {
+        const meal = data.meals[0];
+        recipeName.textContent = meal.strMeal;
+        recipeIngredients.innerHTML = `<h4>Ingrédients:</h4> ${getIngredientsList(meal)}`;
+        recipeInstructions.innerHTML = `<h4>Instructions:</h4> ${meal.strInstructions}`;
 
-                const recipeImage = document.createElement("img");
-                recipeImage.src = meal.strMealThumb;
-                recipeImages.appendChild(recipeImage);
+        const recipeImage = document.createElement("img");
+        recipeImage.src = meal.strMealThumb;
+        recipeImages.appendChild(recipeImage);
 
-                const ingredientsElements = getIngredientsImages(meal);
-                ingredientsElements.forEach((ingredientElement) => {
-                    recipeImages.appendChild(ingredientElement);
-                });
+        const ingredientsElements = getIngredientsImages(meal);
+        ingredientsElements.forEach((ingredientElement) => {
+            recipeImages.appendChild(ingredientElement);
+        });
 
-                recipeDetails.style.display = "block";
-                selectedRecipe = {
-                    name: meal.strMeal,
-                    ingredients: getIngredientsList(meal),
-                    instructions: meal.strInstructions
-                };
-            }
-        };
+        recipeDetails.style.display = "block";
+    }
+};
+
 
         const getIngredientsImages = (meal) => {
             const ingredientsElements = [];
@@ -229,24 +222,9 @@
 
         searchRecipeBtn.addEventListener("click", searchRecipe);
 
-    document.getElementById("goToCalculatorButton").addEventListener("click", () => {
-    if (selectedRecipe) {
-        fetch("/set_selected_recipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(selectedRecipe)
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.location.href = "/calculator";
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }
-});
+    
+    
+
     </script>
 </body>
 </html>
