@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="static/css/dashboard.css" />
     <link rel="stylesheet" href="static/css/ingredients.css" />
       <link rel="stylesheet" href="static/css/index.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script>
 
 
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"/>
@@ -29,25 +28,18 @@
         <li>
           <a href="/index1.html" id="index1-link">
             <i class="bx bx-grid-alt"></i>
-            <span class="links_name">Home</span>
+            <span class="links_name">index1</span>
           </a>
-          <span class="tooltip">Home</span>
+          <span class="tooltip">Index1</span>
         </li>
-        <li>
-          <a href="/login.html" id="login-link">
-            <i class="bx bx-user"></i>
-            <span class="links_name">login</span>
-          </a>
-          <span class="tooltip">login</span>
-        </li>
-        <li>
-
+        
+       
         <li>
           <a href="/recettes.html" id="recettes-link">
             <i class="bx bx-folder"></i>
-            <span class="links_name">cooking recipe </span>
+            <span class="links_name">Recettes </span>
           </a>
-          <span class="tooltip">Liste de recettes</span>
+          <span class="tooltip">Creez vos recettes</span>
         </li>
         <li>
           <a href="/ingredients.html" id="ingredients-link">
@@ -61,29 +53,19 @@
             <i class="bx bx-heart"></i>
             <span class="links_name">Calendar</span>
           </a>
-          <span class="tooltip">Meal Planning</span>
+          <span class="tooltip">Planifiez vos menus</span>
         </li>
         <li>
           <a href="/calculator.html" id="calculator-link">
             <i class="bx bx-cog"></i>
             <span class="links_name">Calculator</span>
           </a>
-          <span class="tooltip">calculator</span>
+          <span class="tooltip">calculer</span>
         </li>
-
       </ul>
     </div>
-   <div id="google_translate_element"></div>
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
-}
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-
     <section class="home-section">
-      <div class="text">MealPrice,</div>
+      <div class="text">Meal Price,</div>
       <div id="content-container"></div>
       </div>
     </section>
@@ -144,13 +126,13 @@ $(document).ready(function () {
     $("#calendar-link").click(function(e) {
         handleLinkClick(e, "/calendar");
     });
-   
+   $("#stocks-link").click(function(e) {
+        handleLinkClick(e, "/stocks");
     }); 
-   $("#login-link").click(function(e) {
-        handleLinkClick(e, "/login");
+   $("#user-link").click(function(e) {
+        handleLinkClick(e, "/user");
     });
-    
-
+});
 </script>
 </body>
 </html>
