@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Convertor </title>
+  <!-- CSS pour Font Awesome, Dashboard et Boxicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="static/css/dashboard.css">
+
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+   <!-- Ajout de DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+ <!-- Ajout de DataTables JS -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <!-- Contenu de la sidebar -->
+    </div>
+    <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div>
+            <h2>Unités de Poids</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Unité</th>
+      <th>Entrée</th>
+      <th>Conversion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Weight Conversion -->
+    <tr>
+      <td>Kilogrammes (kg)</td>
+      <td><input type="text" id="inputKg" oninput="convertFromKg()"/></td>
+      <td id="outputKg"></td>
+    </tr>
+    <tr>
+      <td>Grammes (g)</td>
+      <td><input type="text" id="inputG" oninput="convertFromG()"/></td>
+      <td id="outputG"></td>
+    </tr>
+    <tr>
+      <td>Onces (oz)</td>
+      <td><input type="text" id="inputOz" oninput="convertFromOz()"/></td>
+      <td id="outputOz"></td>
+    </tr>
+    <tr>
+      <td>Libres (lbs)</td>
+      <td><input type="text" id="inputLbs" oninput="convertFromLbs()"/></td>
+      <td id="outputLbs"></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Unités de Liquides</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Unité</th>
+      <th>Entrée</th>
+      <th>Conversion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Liquid Capacity Conversion -->
+    <!-- Liquid Capacity Conversion -->
+<tr>
+  <td>Litres (l)</td>
+  <td><input type="text" id="inputL" oninput="convertFromL()"/></td>
+  <td id="outputL"></td>
+</tr>
+<tr>
+  <td>Décilitres (dl)</td>
+  <td><input type="text" id="inputDl" oninput="convertFromDl()"/></td>
+  <td id="outputDl"></td>
+</tr>
+<tr>
+  <td>Centilitres (cl)</td>
+  <td><input type="text" id="inputCl" oninput="convertFromCl()"/></td>
+  <td id="outputCl"></td>
+</tr>
+<tr>
+  <td>Millilitres (ml)</td>
+  <td><input type="text" id="inputMl" oninput="convertFromMl()"/></td>
+  <td id="outputMl"></td>
+</tr>
+<tr>
+  <td>Cuillères à soupe</td>
+  <td><input type="text" id="inputCuil" oninput="convertFromCuil()"/></td>
+  <td id="outputCuil"></td>
+</tr>
+<tr>
+  <td>Tasses (US)</td>
+  <td><input type="text" id="inputTassesUs" oninput="convertFromTassesUs()"/></td>
+  <td id="outputTassesUs"></td>
+</tr>
+<tr>
+  <td>Tasses (métrique)</td>
+  <td><input type="text" id="inputTassesMetrique" oninput="convertFromTassesMetrique()"/></td>
+  <td id="outputTassesMetrique"></td>
+</tr>
+<tr>
+  <td>Onces liquides (fl oz)</td>
+  <td><input type="text" id="inputFlOz" oninput="convertFromFlOz()"/></td>
+  <td id="outputFlOz"></td>
+</tr>
+
+    
+  </tbody>
+</table>
+
+<script>
+  // Conversion functions for Weight
+  function convertFromKg() {
+    var kg = parseFloat(document.getElementById('inputKg').value);
+    document.getElementById('outputG').innerHTML = kg * 1000 + ' g';
+    document.getElementById('outputOz').innerHTML = kg * 35.274 + ' oz';
+    document.getElementById('outputLbs').innerHTML = kg * 2.20462 + ' lbs';
+  }
+
+  function convertFromG() {
+    var g = parseFloat(document.getElementById('inputG').value);
+    document.getElementById('outputKg').innerHTML = g / 1000 + ' kg';
+    document.getElementById('outputOz').innerHTML = g * 0.035274 + ' oz';
+    document.getElementById('outputLbs').innerHTML = g * 0.00220462 + ' lbs';
+  }
+
+  function convertFromOz() {
+    var oz = parseFloat(document.getElementById('inputOz').value);
+    document.getElementById('outputKg').innerHTML = oz * 0.0283495 + ' kg';
+    document.getElementById('outputG').innerHTML = oz * 28.3495 + ' g';
+    document.getElementById('outputLbs').innerHTML = oz * 0.0625 + ' lbs';
+  }
+
+  function convertFromLbs() {
+    var lbs = parseFloat(document.getElementById('inputLbs').value);
+    document.getElementById('outputKg').innerHTML = lbs * 0.453592 + ' kg';
+    document.getElementById('outputG').innerHTML = lbs * 453.592 + ' g';
+    document.getElementById('outputOz').innerHTML = lbs * 16 + ' oz';
+  }
+
+  // Conversion functions for Liquid Capacity
+  function convertFromL() {
+  var l = parseFloat(document.getElementById('inputL').value);
+  document.getElementById('outputMl').innerHTML = (l * 1000).toFixed(2) + ' ml';
+  document.getElementById('outputDl').innerHTML = (l * 10).toFixed(2) + ' dl';
+  document.getElementById('outputCl').innerHTML = (l * 100).toFixed(2) + ' cl';
+  document.getElementById('outputCuil').innerHTML = (l * 66.6667).toFixed(2) + ' cuillères à soupe';
+  document.getElementById('outputTassesUs').innerHTML = (l * 4.22675).toFixed(2) + ' tasses (US)';
+  document.getElementById('outputTassesMetrique').innerHTML = (l * 4).toFixed(2) + ' tasses (métrique)';
+  document.getElementById('outputFlOz').innerHTML = (l * 33.814).toFixed(2) + ' onces liquides (fl oz)';
+}
+
+
+</script>
+</body>
+</html>
