@@ -27,10 +27,10 @@
         </li>
         <li>
           <a href="/index1.html" id="index1-link">
-            <i class="bx bx-grid-alt"></i>
-            <span class="links_name">index1</span>
+            <i class="bx bxs-home"></i>
+            <span class="links_name">Home</span>
           </a>
-          <span class="tooltip">Index1</span>
+          <span class="tooltip">Home</span>
         </li>
         
        
@@ -61,6 +61,13 @@
             <span class="links_name">Calculator</span>
           </a>
           <span class="tooltip">calculer</span>
+        </li>
+        <li>
+          <a href="/conversions.html" id="conversions-link">
+          <i class='bx bx-transfer-alt'></i>
+          <span class="links_name">Poids</span>
+          </a>
+          <span class="tooltip">Poids/Volume</span>
         </li>
       </ul>
     </div>
@@ -129,8 +136,8 @@ $(document).ready(function () {
    $("#stocks-link").click(function(e) {
         handleLinkClick(e, "/stocks");
     }); 
-   $("#user-link").click(function(e) {
-        handleLinkClick(e, "/user");
+   $("#conversions-link").click(function(e) {
+        handleLinkClick(e, "/conversions");
     });
 });
 </script>
