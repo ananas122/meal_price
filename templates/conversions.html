@@ -17,7 +17,93 @@
  <!-- Ajout de DataTables JS -->
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
+<style>
+/* Importation d'une police de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
+/* Styles globaux */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4; /* couleur de fond légère */
+}
+
+/* Styles pour DataTables */
+.dataTables_wrapper {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* En-tête du tableau */
+table.dataTable thead th {
+    background-color: #565656; /* couleur de fond pour les en-têtes */
+    color: #ffffff; /* texte blanc pour le contraste */
+    font-weight: 500;
+    padding: 12px; /* plus d'espacement */
+}
+
+/* Cellules du tableau */
+table.dataTable tbody td {
+    padding: 10px; /* espacement confortable */
+    background-color: #ffffff; /* fond blanc pour le corps */
+    color: #333333; /* texte sombre pour le corps */
+    border-bottom: 1px solid #dddddd; /* séparateur subtil entre les lignes */
+}
+
+/* Survol des lignes */
+table.dataTable tbody tr:hover {
+    background-color: #f2f2f2; /* couleur de surbrillance au survol */
+}
+
+/* Pagination */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 5px 10px;
+    background-color: #565656; /* couleur de fond pour la pagination */
+    color: white; /* texte blanc pour la pagination */
+    border-radius: 4px; /* coins arrondis */
+    margin-left: 5px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #424242; /* couleur de fond au survol */
+}
+
+/* Affichage des informations sur le tableau */
+.dataTables_wrapper .dataTables_info {
+    font-size: 0.9em;
+    padding-top: 10px;
+}
+
+/* Filtrage des entrées */
+.dataTables_wrapper .dataTables_filter {
+    float: right; /* positionner le filtre à droite */
+}
+
+.dataTables_wrapper .dataTables_filter label {
+    font-weight: normal;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0.5em;
+    border: 1px solid #dddddd; /* bordure subtile pour l'entrée */
+    padding: 5px;
+    border-radius: 4px; /* coins arrondis pour l'entrée */
+}
+
+/* Assurez-vous que les styles sont réactifs */
+@media screen and (max-width: 767px) {
+    .dataTables_wrapper {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+</style>
+  <img src="static/images/tab.jpeg" alt="banniere recette" width="600">
 
 </head>
 
