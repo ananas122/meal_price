@@ -8,24 +8,9 @@ from dateutil.parser import parse
 import json
 import logging
 import pymysql
+from supabase import create_client
 
-app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'samira88'
-app.config['MYSQL_DB'] = 'mp_db'
-app.config['MYSQL_CURSORCLASS'] = 'pymysql.cursors.DictCursor'
-
-api = Api(app)
-mysql = pymysql.connect(
-    host=app.config['MYSQL_HOST'],
-    user=app.config['MYSQL_USER'],
-    password=app.config['MYSQL_PASSWORD'],
-    db=app.config['MYSQL_DB'],
-    cursorclass=app.config['MYSQL_CURSORCLASS']
-)
-
-def configure_routes(app):
+def configure_routes(app, mysql):
     @app.route('/set_cookie')
     def set_cookie():
         session_id = str(uuid.uuid4())
@@ -52,13 +37,6 @@ def configure_routes(app):
         mysql.connection.commit()
         cur.close()
         return 'Ingrédient ajouté avec succès', 201
-
-    def get_recipe_from_db(recipe_id):
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM recettes WHERE id=%s", [recipe_id])
-        recipe = cur.fetchone()
-        cur.close()
-        return recipe
 
     @app.route('/dashboard')
     def dashboard():
@@ -87,7 +65,7 @@ def configure_routes(app):
     @app.route('/ingredients')
     def ingredients():
         return render_template('ingredients.html')
-    
+
     @app.route('/conversions')
     def conversions():
         return render_template('conversions.html')
@@ -149,19 +127,6 @@ def configure_routes(app):
         }
         return jsonify(success=True)
 
-    events = []
-
-    class Event(Resource):
-        def get(self, event_id):
-            event = next((event for event in events if event['id'] == event_id), None)
-            return (event, 200) if event else ("Événement non trouvé", 404)
-
-        def post(self):
-            new_event = request.get_json()
-            events.append(new_event)
-            return new_event, 201
-
-   
     @app.route('/get_events', methods=['GET'])
     def get_events():
         cur = mysql.connection.cursor()
@@ -176,11 +141,10 @@ def configure_routes(app):
         event_data = request.json
         title = event_data.get('title')
         start_datetime = event_data.get('start_datetime')
-        print(f"Title: {title}, Start Time: {start_datetime}")
         try:
             datetime_obj = parse(start_datetime)
         except Exception as e:
-            print(f"Erreur lors de la conversion de la date: {e}")
+            logging.error(f"Erreur lors de la conversion de la date: {e}")
             return 'Format de date invalide', 400
         mysql_format = datetime_obj.strftime('%Y-%m-%d %H:%M:%S')
         try:
@@ -188,14 +152,35 @@ def configure_routes(app):
                         (title, mysql_format))
             mysql.connection.commit()
         except Exception as e:
-            print(f"Erreur lors de l'insertion dans la base de données: {e}")
+            logging.error(f"Erreur lors de l'insertion dans la base de données: {e}")
             return "Erreur lors de la sauvegarde de l'événement", 500
         cur.close()
         return 'Événement sauvegardé', 201
+    class Event(Resource):
+        def get(self, event_id):
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT * FROM events WHERE id = %s", (event_id,))
+            event = cur.fetchone()
+            cur.close()
+            return jsonify(event), 200 if event else ('Événement non trouvé', 404)
 
-# Register the api with the Flask app
+        def post(self):
+            event_data = request.get_json()
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO events (title, start_datetime) VALUES (%s, %s)",
+                        (event_data['title'], event_data['start_datetime']))
+            mysql.connection.commit()
+            cur.close()
+            return jsonify({'message': 'Événement créé avec succès'}), 201
+
+ # Register the api with the Flask app
+        api.init_app(app)
+    # Ajoutez d'autres routes ou ressources ici si nécessaire.
+
+    # Assurez-vous que toutes les routes nécessaires sont correctement configurées.
 api.init_app(app)
 configure_routes(app)
+
 
 if __name__ == '__main__':
     app.run()
