@@ -2,13 +2,13 @@ from flask import Flask, jsonify, request, make_response, session, render_templa
 from flask_cors import CORS
 from flask_session import Session
 import pymysql
-import mysql
 from dotenv import load_dotenv
 import os
 from flask_restful import Api, Resource
 import json
 import uuid
 from dateutil.parser import parse
+import mysql.connector
 
 # Charger les variables d'environnement du fichier .env
 load_dotenv()
