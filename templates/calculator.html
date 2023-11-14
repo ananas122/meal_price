@@ -1,144 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Calcul du prix d'une recette</title>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-  <img src="static/images/banner.png" alt="banniere recette" width="600">
-
+  <meta charset="UTF-8">
+  <title>Calculateur de coût de recette</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <style>
+    .input-small { width: 60px; }
+    .input-medium { width: 120px; }
+    .input-large { width: 180px; }
+    #recipeDetailsTable td input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
-  <h1>Calcul du prix d'une recette</h1>
-  <label for="recipe-select">Sélectionnez une recette :</label>
-  <select id="recipe-select">
-    <!-- Les options de recettes seront ajoutées dynamiquement via l'API -->
-  </select>
-  <button id="create-recipe-button">Créer une nouvelle recette</button>
-  <h2>Ingrédients</h2>
-    <button id="add-ingredient-button">Ajouter un ingrédient</button>
-
-  <table id="recipeDetailsTable" class="display" style="width:100%">
+  <h1>Calcul du coût d'une recette</h1>
+  <div>
+    <label for="recipe-name">Nom de la recette :</label>
+    <input type="text" id="recipe-name" class="input-large">
+  </div>
+  <table id="recipeDetailsTable" class="display">
     <thead>
       <tr>
         <th>Nom de l'ingrédient</th>
-        <th>Quantité utilisée</th>
-        <th>Unité de mesure</th>
-        <th>Coût des marchandises</th>
+        <th>Quantité Achetée</th>
+        <th>Unité Achat</th>
+        <th>Coût des Marchandises ($)</th>
+        <th>Quantité Utilisée</th>
+        <th>Unité Utilisée</th>
+        <th>Coût Total ($)</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+      <!-- Les lignes seront ajoutées ici -->
+    </tbody>
   </table>
-  <h2>Prix total de la recette :</h2>
-  <input type="text" id="total-price" readonly>
-  <button id="calculate-button">Calculer le prix</button>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <button id="add-ingredient-button">Ajouter un ingrédient</button>
+  <div>
+    <p>Coût total du lot : <span id="total-batch-cost">0.00</span></p>
+    <p>Prix de vente par portion : <input type="text" id="selling-price-per-serve" class="input-medium"></p>
+  </div>
+  <button id="calculate-button">Calculer le coût</button>
   <script>
-    // Fonction pour mettre à jour la table avec les détails d'une recette
-    async function updateTableWithRecipe(recipeId) {
-      const table = $('#recipeDetailsTable').DataTable();
-      table.clear(); // Nettoyer la table pour les nouvelles données
-      try {
-        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
-        const data = await response.json();
-        if (data.meals) {
-          const meal = data.meals[0]; // Prendre le premier résultat
-          // Supposons que les ingrédients et les mesures sont dans des champs séparés comme `strIngredient1` et `strMeasure1`
-          for (let i = 1; i <= 20; i++) { // TheMealDB a jusqu'à 20 ingrédients
-            if (meal[`strIngredient${i}`]) { // Si l'ingrédient existe
-              table.row.add([
-                `<input type="text" class="ingredient-input" value="${meal[`strIngredient${i}`]}">`, // Champ de saisie pour le nom de l'ingrédient
-                `<input type="text" class="quantity-input" value="${meal[`strMeasure${i}`]}">`, // Champ de saisie pour la quantité
-                `<input type="text" class="unit-input" value="unité">`, // Champ de saisie pour l'unité de mesure
-                `<input type="text" class="cost-input" value="0.00">` // Champ de saisie pour le coût des marchandises
-              ]).draw(false);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération des détails de la recette: ", error);
-      }
-    }
-
-    // Fonction pour créer une nouvelle recette
-    function createNewRecipe() {
-      const table = $('#recipeDetailsTable').DataTable();
-      table.clear().draw();
-      table.row.add([
-        '<input type="text" class="ingredient-input">', // Champ de saisie pour le nom de l'ingrédient
-        '<input type="text" class="quantity-input">', // Champ de saisie pour la quantité
-        '<input type="text" class="unit-input">', // Champ de saisie pour l'unité de mesure
-        '<input type="text" class="cost-input">' // Champ de saisie pour le coût des marchandises
-      ]).draw(false);
-    }
-
-    // Fonction pour récupérer la liste des recettes depuis l'API
-    async function getRecipeList() {
-      try {
-        const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=c');
-        const data = await response.json();
-        return data.meals;
-      } catch (error) {
-        console.error("Erreur lors de la récupération de la liste des recettes: ", error);
-        return [];
-      }
-    }
-
-    // Fonction pour afficher la liste des recettes dans la liste déroulante
-    function displayRecipeList(recipes) {
-      const recipeSelect = document.getElementById('recipe-select');
-      recipes.forEach(recipe => {
-        const option = document.createElement('option');
-        option.value = recipe.idMeal;
-        option.text = recipe.strMeal;
-        recipeSelect.add(option);
+    $(document).ready(function() {
+      var table = $('#recipeDetailsTable').DataTable();
+      // Ajouter un ingrédient vide au tableau
+      $('#add-ingredient-button').on('click', function () {
+        table.row.add([
+          '<input type="text" class="ingredient-name input-large">',
+          '<input type="number" class="qty-purchased input-small">',
+          '<input type="text" class="unit-purchased input-small">',
+          '<input type="number" class="cost-goods input-small">',
+          '<input type="number" class="qty-used input-small">',
+          '<input type="text" class="unit-used input-small">',
+          '<input type="text" class="cost-total input-small" readonly>'
+        ]).draw();
       });
-    }
-
-    // Fonction pour calculer le prix total de la recette
-    function calculateTotalPrice() {
-      const table = $('#recipeDetailsTable').DataTable();
-      const rows = table.rows().data();
-      let totalPrice = 0;
-      rows.each(row => {
-        const quantity = parseFloat(row[1]);
-        const cost = parseFloat(row[3]);
-        totalPrice += quantity * cost;
+      // Calculer le coût
+      $('#calculate-button').on('click', function () {
+        var totalBatchCost = 0;
+        table.rows().every(function () {
+          var data = this.data();
+          var qtyPurchased = parseFloat($(data[1]).find('input').val()) || 0;
+          var costGoods = parseFloat($(data[3]).find('input').val()) || 0;
+          var qtyUsed = parseFloat($(data[4]).find('input').val()) || 0;
+          var costTotal = (costGoods / qtyPurchased) * qtyUsed;
+          $(data[6]).find('input').val(costTotal.toFixed(2));
+          totalBatchCost += costTotal;
+        });
+        $('#total-batch-cost').text(totalBatchCost.toFixed(2));
       });
-      $('#total-price').val(totalPrice.toFixed(2));
-    }
-
-    function addIngredient() {
-      const table = $('#recipeDetailsTable').DataTable();
-      table.row.add([
-        '<input type="text" class="ingredient-input">', // Champ de saisie pour le nom de l'ingrédient
-        '<input type="text" class="quantity-input">', // Champ de saisie pour la quantité
-        '<input type="text" class="unit-input">', // Champ de saisie pour l'unité de mesure
-        '<input type="text" class="cost-input">' // Champ de saisie pour le coût des marchandises
-      ]).draw(false);
-    }
-    
-    $(document).ready(async function() {
-      const recipeSelect = document.getElementById('recipe-select');
-      const createRecipeButton = document.getElementById('create-recipe-button');
-      const recipes = await getRecipeList();
-      displayRecipeList(recipes);
-    
-    $('#add-ingredient-button').click(addIngredient);
-
-      // Événement lors de la sélection d'une recette
-      recipeSelect.addEventListener('change', async function() {
-        const recipeId = recipeSelect.value;
-        updateTableWithRecipe(recipeId);
-      });
-
-      // Événement lors du clic sur le bouton "Créer une nouvelle recette"
-      createRecipeButton.addEventListener('click', createNewRecipe);
-
-      // Initialisation de la table DataTable
-      $('#recipeDetailsTable').DataTable();
-
-// Événement lors du clic sur le bouton "Calculer le prix"
-      $('#calculate-button').click(calculateTotalPrice);
     });
   </script>
 </body>

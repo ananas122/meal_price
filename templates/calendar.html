@@ -19,7 +19,7 @@ h3 {
   color: #800080; /* Code couleur pour le violet */
 }
 button {
-  background-color: #4e0d3a; /* Une teinte de violet */
+  background-color: #4e0d3a; 
   color: white;
   padding: 10px 20px;
   border: none;
@@ -93,8 +93,8 @@ button:hover {
        <li><input type="time" id="heureDebut"></li>
     <input type="text" id="rechercheRecette" placeholder="Rechercher une recette...">
  </ul>
-    <button onclick="rechercher()">Rechercher</button>
-    <button onclick="ajouterEvenement()">Ajouter</button>
+    <button onclick="rechercher()">Search</button>
+    <button onclick="ajouterEvenement()">Add event</button>
   </div>
 
   <script>
@@ -114,7 +114,7 @@ async function getSearched(name) {
 async function rechercher() {
   const query = document.getElementById('rechercheRecette').value;
   recetteSelectionnee = await getSearched(query);
-  alert("Recette trouvée: " + recetteSelectionnee);
+  alert("Recipe found: " + recetteSelectionnee);
 }
 
 // Fonction pour ouvrir la boîte de dialogue
@@ -170,34 +170,34 @@ function supprimerEvenement() {
   }
 }
 
-// Fonction asynchrone pour sauvegarder les événements
-async function sauvegarderEvenements() {
-  console.log("Sauvegarde des événements"); // Log pour la sauvegarde des événements
+// Fonction pour sauvegarder les événements dans le local storage
+function sauvegarderEvenements() {
+  console.log("Sauvegarde des événements dans le local storage");
 
-  const evenements = calendar.getEvents();
-  for (let event of evenements) {
-    const titre = event.title;
-    const debut = event.start.toISOString();
-    await fetch('/save_event', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title: titre, start_datetime: debut }),
-    });
-  }
-  alert('Événements sauvegardés');
+  const evenements = calendar.getEvents().map(event => ({
+    title: event.title,
+    start: event.start.toISOString(),
+    
+  }));
+
+  // Enregistrer les événements dans le local storage
+  localStorage.setItem('evenements', JSON.stringify(evenements));
+  alert('Événements sauvegardés dans le local storage');
 }
-async function loadEvents() {
-  const res = await fetch('/get_events');
-  const events = await res.json();
-  
-  // Ajouter ces événements au calendrier
-  for (let event of events) {
-    calendar.addEvent({
-      title: event.title,
-      start: new Date(event.start_datetime),
-      allDay: false
+
+// Fonction pour charger les événements du local storage
+function loadEvents() {
+  const storedEvents = localStorage.getItem('evenements');
+  if (storedEvents) {
+    const evenements = JSON.parse(storedEvents);
+
+    // Ajouter ces événements au calendrier
+    evenements.forEach(event => {
+      calendar.addEvent({
+        title: event.title,
+        start: new Date(event.start),
+        allDay: false
+      });
     });
   }
 }
@@ -212,12 +212,11 @@ $(document).ready(function() {
     selectable: true,
     select: ouvrirDialogue,
     eventClick: function(info) {
-      alert('Événement cliqué: ' + info.event.title + ' à ' + info.event.start.toTimeString());
+      alert('Event clicked: ' + info.event.title + ' to ' + info.event.start.toTimeString());
     }
   });
   calendar.render();
-
- loadEvents();
+  loadEvents();
 });
 
 </script>
