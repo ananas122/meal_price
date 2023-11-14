@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produits avec Prix et Catégories</title>
+    <title>Products with Prices and Categories</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -11,52 +11,46 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.7.12/umd.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        /* Neutral style for column headers */
+        /* Style  pour les en-têtes de colonnes */
         .dataTables thead th {
-            background-color: #f5f5f5; /* Background color for column headers */
-            border: 1px solid #ccc; /* Border color for column headers */
-            color: #333; /* Text color for column headers */
+            background-color: #f5f5f5; /* Couleur de fond pour les en-têtes de colonnes */
+            border: 1px solid #ccc; /* Couleur de bordure pour les en-têtes de colonnes */
+            color: #333; /* Couleur du texte pour les en-têtes de colonnes */
         }
     </style>
-    
 </head>
-  <img src="static/images/ing.jpeg" alt="banniere ingredient" width="700">
-
 <body>
-
-    <h1>Recherche de produit sur Open Food Facts</h1>
-
-    <input type="text" id="searchQuery" placeholder="Entrez le nom du produit" />
-    <button onclick="searchProduct()">Rechercher</button>
-
+    <img src="static/images/ing.jpeg" alt="banniere ingredient" width="700">
+    <h1>Search for products on Open Food Facts</h1>
+    <input type="text" id="searchQuery" placeholder="Enter product name" />
+    <button onclick="searchProduct()">Search</button>
     <table id="productsTable" class="display">
         <thead>
             <tr>
                 <th>Photo</th>
-                <th>Nom</th>
-                <th>Marque</th>
+                <th>Name</th>
+                <th>Brand</th>
                 <th class="nutriscore">Nutri-Score</th>
                 <th>Ingredients</th>
-                <th>Prix</th>
+                <th>Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
-
-    <!-- Modal for product details -->
+    <!-- Modal pour les détails du produit -->
     <div class="modal fade" id="productDetailsModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Ingrédients</h5>
+                    <h5 class="modal-title" id="modalTitle">Ingredients</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Product details will be displayed here -->
+                    <!-- Les détails du produit seront affichés ici -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -64,7 +58,6 @@
             </div>
         </div>
     </div>
-
     <script>
         $(document).ready(function() {
             var table = $('#productsTable').DataTable({
@@ -73,27 +66,28 @@
                     { "className": "nutriscore", "targets": [3] }
                 ]
             });
-
-            // Load saved prices when the page is loaded
+            // Charger les prix enregistrés lorsque la page est chargée
             loadPrices();
-
-            // Event handler for clicking on a table row
+            // Gestionnaire d'événements pour cliquer sur une ligne du tableau
             $('#productsTable tbody').on('click', 'tr', function() {
                 var row = table.row(this).data();
                 var ingredients = row[4];
                 showIngredients(ingredients);
             });
-
-            // Event handler for clicking on the product details link
-            $('#productsTable tbody').on('click', '.product-details-link', function(e) {
-                e.preventDefault();
-                var row = table.row($(this).closest('tr')).data();
+            // Gestionnaire d'événements pour cliquer sur le lien des détails du produit
+            $('#productsTable tbody').on('click', 'tr', function(e) {
+                // Vérifier si l'élément cliqué est un input ou un bouton
+                if ($(e.target).is('input, button')) {
+                    // Empêcher la propagation si l'élément cliqué est un input ou un bouton
+                    e.stopPropagation();
+                    return;
+                }
+                // afficher les ingrédients
+                var row = table.row(this).data();
                 var ingredients = row[4];
-                $('#productDetailsModal .modal-body').text(ingredients);
-                $('#productDetailsModal').modal('show');
+                showIngredients(ingredients);
             });
         });
-
         function searchProduct() {
             var query = $('#searchQuery').val();
             if (query) {
@@ -101,20 +95,19 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.products.length === 0) {
-                            alert('Aucun produit trouvé.');
+                            alert('No products found');
                             return;
                         }
                         updateTable(data.products);
                     })
                     .catch(error => {
                         console.error(error);
-                        alert('Erreur lors de la recherche de produits.');
+                        alert('Error when searching for products.');
                     });
             } else {
-                alert('Veuillez entrer un nom de produit.');
+                alert('Please enter a product name.');
             }
         }
-
         function updateTable(products) {
             var table = $('#productsTable').DataTable();
             table.clear();
@@ -126,26 +119,23 @@
                     product.product_name || 'Inconnu',
                     product.brands || 'Inconnu',
                     product.nutrition_grades || 'Inconnu',
-                    `<a href="#" class="product-details-link">Détails</a>`,
+                    ingredients,
                     `<input type="number" id="${priceId}" placeholder="€" style="width:70px;" value="${localStorage.getItem(priceId) || ''}">`,
-                    `<button onclick="savePrice('${product._id}')">Sauvegarder</button>`
+                    `<button onclick="savePrice('${product._id}')">Sauvegarder</button>` // Ajouté pour la colonne 'Actions'
                 ]);
             });
             table.draw();
         }
-
         function showIngredients(ingredients) {
             $('#productDetailsModal .modal-body').text(ingredients);
             $('#productDetailsModal').modal('show');
         }
-
         function savePrice(productId) {
             var priceId = 'price-' + productId;
             var price = $('#' + priceId).val();
             localStorage.setItem(priceId, price);
-            alert('Prix sauvegardé pour le produit ID ' + productId);
+            alert('Price saved for product ID ' + productId);
         }
-
         function loadPrices() {
             $('#productsTable input[type="number"]').each(function() {
                 var priceId = $(this).attr('id');
