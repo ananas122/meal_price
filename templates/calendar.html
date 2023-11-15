@@ -1,224 +1,178 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Menu Planning </title>
-  <!-- CSS pour Font Awesome, Dashboard et Boxicons -->
+  <title>Menu Planning</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="static/css/dashboard.css">
-
-  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-  
-  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- FullCalendar CSS et JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
-<style>
-h3 {
-  color: #800080; /* Code couleur pour le violet */
-}
-button {
-  background-color: #4e0d3a; 
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-#dialogueBox {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  width: 300px; /* ou la largeur que vous souhaitez */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#dialogueBox ul {
-  list-style: none;
-  padding: 0;
-}
-
-#dialogueBox li {
-  margin-bottom: 10px;
-}
-#dialogueBox {
-  /* ...autres styles... */
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-#dialogueBox.active {
-  opacity: 1;
-}
-
-</style>
+  <style>
+    h3 {
+      color: #800080;
+    }
+    button {
+      background-color: #4e0d3a;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    #dialogueBox {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #dialogueBox ul {
+      list-style: none;
+      padding: 0;
+    }
+    #dialogueBox li {
+      margin-bottom: 10px;
+    }
+    #dialogueBox {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #dialogueBox.active {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
-<img src="static/images/calendar.png" alt="banniere calendrier">
-
+  <img src="static/images/calendar.png" alt="banniere calendrier">
   <h2>calendar</h2>
   <div class="sidebar">
     <!-- Contenu de la barre latérale depuis dashboard.css -->
   </div>
-
   <h3>Menu planning</h3>
   <div id='calendar'></div>
   <div>
-<button class="styled-button" onclick="ouvrirDialogue()">Ajouter</button>
-    <button onclick="supprimerEvenement()">Supprimer un événement</button>
-    <button onclick="sauvegarderEvenements()">Sauvegarder</button>
-
+    <button class="styled-button" onclick="ouvrirDialogue()">Add</button>
+    <button onclick="supprimerEvenement()">Delete the event</button>
+    <button onclick="sauvegarderEvenements()">Save</button>
   </div>
-
   <div id="dialogueBox" style="display:none;">
     <ul>
       <li><input type="checkbox" id="diner" value="Dîner"> <label for="diner">Dîner</label></li>
       <li><input type="checkbox" id="breakfast" value="Breakfast"> <label for="breakfast">Breakfast</label></li>
       <li><input type="checkbox" id="Birthday" value="Birthday"> <label for="Birthday">Birthday</label></li>
-
-       <li><input type="time" id="heureDebut"></li>
-    <input type="text" id="rechercheRecette" placeholder="Rechercher une recette...">
- </ul>
+      <li><input type="time" id="heureDebut"></li>
+      <input type="text" id="rechercheRecette" placeholder="Search for a recipe...">
+    </ul>
     <button onclick="rechercher()">Search</button>
     <button onclick="ajouterEvenement()">Add event</button>
   </div>
-
   <script>
-// Variable globale pour stocker la recette sélectionnée
-var recetteSelectionnee = null;
-var calendar;
-console.log("Script commencé"); // Log initial pour vérifier que le script s'exécute
+    var recetteSelectionnee = null;
+    var calendar;
 
-// Fonction asynchrone pour obtenir la première recette correspondant à une recherche
-async function getSearched(name) {
-  const data = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=6820604bd3a44f849de0112f112d822e&query=${name}`);
-  const recipes = await data.json();
-  return recipes.results[0]?.title || 'Recette non trouvée';
-}
-
-// Fonction asynchrone pour effectuer une recherche de recette
-async function rechercher() {
-  const query = document.getElementById('rechercheRecette').value;
-  recetteSelectionnee = await getSearched(query);
-  alert("Recipe found: " + recetteSelectionnee);
-}
-
-// Fonction pour ouvrir la boîte de dialogue
-function ouvrirDialogue(info) {
-  console.log("Ouverture de la boîte de dialogue"); // Log pour l'ouverture de la boîte de dialogue
-  document.getElementById("dialogueBox").style.display = "block";
-  if (info && info.startStr) {
-    document.getElementById("dialogueBox").setAttribute("data-start", info.startStr);
-  } else {
-    document.getElementById("dialogueBox").removeAttribute("data-start");
-  }
-    
-  document.getElementById("dialogueBox").classList.add("active");
-}
-
-
-
-// Fonction asynchrone pour ajouter un événement
-async function ajouterEvenement() {
-  console.log("Ajout d'un événement"); // Log pour l'ajout d'un événement
-
-  const startDate = document.getElementById("dialogueBox").getAttribute("data-start");
-  if (!startDate) {
-  console.error("startDate est null ou non défini");
-  return;
-}
-
-  const heureDebut = document.getElementById("heureDebut").value;
-  const [annee, mois, jour] = startDate.split('-');
-  const [heure, minutes] = heureDebut.split(':');
-  const startDateTime = new Date(annee, mois - 1, jour, heure, minutes);
-
-  const checkboxes = document.querySelectorAll('#dialogueBox input[type="checkbox"]:checked');
-  for (let checkbox of checkboxes) {
-    const typeEvenement = checkbox.value;
-    const recetteTitle = recetteSelectionnee || await getSearched(typeEvenement);
-    calendar.addEvent({
-      title: `${typeEvenement} - ${recetteTitle}`,
-      start: startDateTime,
-      allDay: false
-    });
-  }
-  document.getElementById("dialogueBox").style.display = "none";
-}
-
-// Fonction pour supprimer le premier événement
-function supprimerEvenement() {
-  console.log("Suppression du premier événement"); // Log pour la suppression d'un événement
-
-  const premierEvenement = calendar.getEvents()[0];
-  if (premierEvenement) {
-    premierEvenement.remove();
-  }
-}
-
-// Fonction pour sauvegarder les événements dans le local storage
-function sauvegarderEvenements() {
-  console.log("Sauvegarde des événements dans le local storage");
-
-  const evenements = calendar.getEvents().map(event => ({
-    title: event.title,
-    start: event.start.toISOString(),
-    
-  }));
-
-  // Enregistrer les événements dans le local storage
-  localStorage.setItem('evenements', JSON.stringify(evenements));
-  alert('Événements sauvegardés dans le local storage');
-}
-
-// Fonction pour charger les événements du local storage
-function loadEvents() {
-  const storedEvents = localStorage.getItem('evenements');
-  if (storedEvents) {
-    const evenements = JSON.parse(storedEvents);
-
-    // Ajouter ces événements au calendrier
-    evenements.forEach(event => {
-      calendar.addEvent({
-        title: event.title,
-        start: new Date(event.start),
-        allDay: false
-      });
-    });
-  }
-}
-
-
-// Initialisation du calendrier FullCalendar
-$(document).ready(function() {
-  console.log("Document prêt"); // Log pour vérifier que le document est prêt
-
-  var calendarEl = document.getElementById('calendar');
-  calendar = new FullCalendar.Calendar(calendarEl, {
-    selectable: true,
-    select: ouvrirDialogue,
-    eventClick: function(info) {
-      alert('Event clicked: ' + info.event.title + ' to ' + info.event.start.toTimeString());
+    async function getSearched(name) {
+      const data = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=6820604bd3a44f849de0112f112d822e&query=${name}`);
+      const recipes = await data.json();
+      return recipes.results[0]?.title || 'Recipe not found';
     }
-  });
-  calendar.render();
-  loadEvents();
-});
 
-</script>
+    async function rechercher() {
+      const query = document.getElementById('rechercheRecette').value;
+      recetteSelectionnee = await getSearched(query);
+      alert("Recipe found: " + recetteSelectionnee);
+    }
+
+    function ouvrirDialogue(info) {
+      console.log("Ouverture de la boîte de dialogue");
+      document.getElementById("dialogueBox").style.display = "block";
+      if (info && info.startStr) {
+        document.getElementById("dialogueBox").setAttribute("data-start", info.startStr);
+      } else {
+        document.getElementById("dialogueBox").removeAttribute("data-start");
+      }
+      document.getElementById("dialogueBox").classList.add("active");
+    }
+
+    async function ajouterEvenement() {
+      console.log("Add the event");
+      const startDate = document.getElementById("dialogueBox").getAttribute("data-start");
+      if (!startDate) {
+        console.error("startDate est null ou non défini");
+        return;
+      }
+      const heureDebut = document.getElementById("heureDebut").value;
+      const [annee, mois, jour] = startDate.split('-');
+      const [heure, minutes] = heureDebut.split(':');
+      const startDateTime = new Date(annee, mois - 1, jour, heure, minutes);
+      const checkboxes = document.querySelectorAll('#dialogueBox input[type="checkbox"]:checked');
+      for (let checkbox of checkboxes) {
+        const typeEvenement = checkbox.value;
+        const recetteTitle = recetteSelectionnee || await getSearched(typeEvenement);
+        calendar.addEvent({
+          title: `${typeEvenement} - ${recetteTitle}`,
+          start: startDateTime,
+          allDay: false
+        });
+      }
+      document.getElementById("dialogueBox").style.display = "none";
+    }
+
+    function supprimerEvenement() {
+      console.log("Suppression du premier événement");
+      const premierEvenement = calendar.getEvents()[0];
+      if (premierEvenement) {
+        premierEvenement.remove();
+      }
+    }
+
+    function sauvegarderEvenements() {
+      console.log("Saving events to local storage");
+      const evenements = calendar.getEvents().map(event => ({
+        title: event.title,
+        start: event.start.toISOString(),
+      }));
+      localStorage.setItem('events', JSON.stringify(evenements));
+      alert('Events saved to local storage');
+    }
+
+    function loadEvents() {
+      const storedEvents = localStorage.getItem('events');
+      if (storedEvents) {
+        const evenements = JSON.parse(storedEvents);
+        evenements.forEach(event => {
+          calendar.addEvent({
+            title: event.title,
+            start: new Date(event.start),
+            allDay: false
+          });
+        });
+      }
+    }
+
+    $(document).ready(function() {
+      console.log("Document prêt");
+      var calendarEl = document.getElementById('calendar');
+      calendar = new FullCalendar.Calendar(calendarEl, {
+        selectable: true,
+        select: ouvrirDialogue,
+        eventClick: function(info) {
+          alert('Event clicked: ' + info.event.title + ' to ' + info.event.start.toTimeString());
+        }
+      });
+      calendar.render();
+      loadEvents();
+    });
+  </script>
 </body>
 </html>
