@@ -6,7 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
- <script>function showTime() {
+ <script>
+ function showTime() {
 	document.getElementById('currentTime').innerHTML = new Date().toUTCString();
 }
 showTime();
@@ -21,29 +22,12 @@ setInterval(function () {
         <img src="static/images/index1.png" alt="logo" class="logo">
         <h1 id="site-title">MealPrice</h1>
         <p id="site-description">Your recipe for savings</p>
-        <script>function showTime() {
-	document.getElementById('currentTime').innerHTML = new Date().toUTCString();
-}
-showTime();
-setInterval(function () {
-	showTime();
-}, 1000);
-</script>
-<body>
-      <h1 class="title">Hello tous le monde ! </h1>
+       
+
       <p id="currentTime"></p>
-     
- 
-      
+
     </header>
-<script>function showTime() {
-	document.getElementById('currentTime').innerHTML = new Date().toUTCString();
-}
-showTime();
-setInterval(function () {
-	showTime();
-}, 1000);
-</script>
+
     <main>
        <h2>The recipe for your savings </h2>
 <h3>In the world of cooking, controlling expenses is an art in itself.
