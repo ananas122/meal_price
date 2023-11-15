@@ -1,16 +1,16 @@
 from flask import Flask, jsonify, request, make_response, session, render_template, send_from_directory, redirect, g
 from flask_cors import CORS
 from flask_session import Session
-import pymysql
+#import pymysql
 from dotenv import load_dotenv
 import os
 from flask_restful import Api, Resource
 import json
 import uuid
 from dateutil.parser import parse
-import mysql.connector
+#import mysql.connector
 
-# Charger les variables d'environnement du fichier .env
+# Pr charger les variables d'environnement du fichier .env
 load_dotenv()
 
 app = Flask(__name__)
@@ -24,10 +24,10 @@ app.config['SESSION_USE_SIGNER'] = True
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 # Configuration de la connexion MySQL
-app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
-app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
-app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
-app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
+#app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
+#app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
+#app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
+#app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 
 # Création d'une instance de l'API
 api = Api(app)
@@ -97,9 +97,6 @@ def configure_routes(app):
     def calendar():
         return render_template('calendar.html')
 
-    @app.route('/stocks')
-    def stocks():
-        return render_template('stocks.html')
 
     @app.route('/ingredients')
     def ingredients():
@@ -212,7 +209,6 @@ def configure_routes(app):
 # Register the api with the Flask app
 configure_routes(app)
 
-# Assurez-vous de fermer la connexion après chaque requête
 @app.teardown_appcontext
 def close_db(error):
     if hasattr(g, 'db'):
