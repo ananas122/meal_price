@@ -1,3 +1,5 @@
+<!-- This HTML code represents a menu planning web page with a calendar. -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +59,7 @@
   <img src="static/images/calendar.png" alt="banniere calendrier">
   <h2>calendar</h2>
   <div class="sidebar">
-    <!-- Contenu de la barre latérale depuis dashboard.css -->
+    <!-- Sidebar content from dashboard.css -->
   </div>
   <h3>Menu planning</h3>
   <div id='calendar'></div>
@@ -83,20 +85,23 @@
     var recetteSelectionnee = null;
     var calendar;
 
+    // Function to fetch a recipe based on its name
     async function getSearched(name) {
       const data = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=6820604bd3a44f849de0112f112d822e&query=${name}`);
       const recipes = await data.json();
       return recipes.results[0]?.title || 'Recipe not found';
     }
 
+    // Function to search for a recipe
     async function rechercher() {
       const query = document.getElementById('rechercheRecette').value;
       recetteSelectionnee = await getSearched(query);
       alert("Recipe found: " + recetteSelectionnee);
     }
 
+    // Function to open the dialogue box
     function ouvrirDialogue(info) {
-      console.log("Ouverture de la boîte de dialogue");
+      console.log("Opening the dialogue box");
       document.getElementById("dialogueBox").style.display = "block";
       if (info && info.startStr) {
         document.getElementById("dialogueBox").setAttribute("data-start", info.startStr);
@@ -106,11 +111,12 @@
       document.getElementById("dialogueBox").classList.add("active");
     }
 
+    // Function to add an event to the calendar
     async function ajouterEvenement() {
-      console.log("Add the event");
+      console.log("Adding the event");
       const startDate = document.getElementById("dialogueBox").getAttribute("data-start");
       if (!startDate) {
-        console.error("startDate est null ou non défini");
+        console.error("startDate is null or undefined");
         return;
       }
       const heureDebut = document.getElementById("heureDebut").value;
@@ -130,14 +136,16 @@
       document.getElementById("dialogueBox").style.display = "none";
     }
 
+    // Function to delete the first event from the calendar
     function supprimerEvenement() {
-      console.log("Suppression du premier événement");
+      console.log("Deleting the first event");
       const premierEvenement = calendar.getEvents()[0];
       if (premierEvenement) {
         premierEvenement.remove();
       }
     }
 
+    // Function to save the events to local storage
     function sauvegarderEvenements() {
       console.log("Saving events to local storage");
       const evenements = calendar.getEvents().map(event => ({
@@ -148,6 +156,7 @@
       alert('Events saved to local storage');
     }
 
+    // Function to load events from local storage
     function loadEvents() {
       const storedEvents = localStorage.getItem('events');
       if (storedEvents) {
@@ -163,7 +172,7 @@
     }
 
     $(document).ready(function() {
-      console.log("Document prêt");
+      console.log("Document ready");
       var calendarEl = document.getElementById('calendar');
       calendar = new FullCalendar.Calendar(calendarEl, {
         selectable: true,
