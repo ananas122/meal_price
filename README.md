@@ -30,3 +30,67 @@ Le développement de notre application s'est principalement basé sur les langag
 <img width="100%" alt="Architecture de Meal Price" src="https://github.com/ananas122/meal_price/assets/architecture.png">
 </p>
 [Description de l'architecture de votre application, similaire à l'exemple fourni.]
+
+
+
+<p align="center">4. Fonctionnalités</p>
+
+<p align="justify">
+L'application <b>Meal Price</b> dispose de plusieurs fonctionnalités attrayantes qui améliorent l'expérience utilisateur et facilitent les tâches de gestion :
+</p>
+🍲 <b>Vue des Ingrédients</b> : Permet aux utilisateurs de parcourir tous les ingrédients disponibles.
+📝 <b>Détails des Ingrédients</b> : Offre des informations détaillées sur un ingrédient spécifique.
+🔍 <b>Recherche</b> : Permet aux utilisateurs de rechercher des ingrédients en utilisant des mots-clés.
+🛒 <b>Gestion du Calcul</b> : Fournit aux utilisateurs la possibilité d'ajouter des ingrédients à leur calcul et de déterminer le prix du repas.
+<p align="center">5. Tests</p>
+
+<p align="justify">
+L'application dispose d'une suite complète de tests unitaires couvrant chaque section. Nous avons configuré des tests pour les ingrédients, les formules de calcul, et plus encore.
+</p>
+<p align="center">6. Installation et Utilisation</p>
+
+<p align="justify">
+Cette section vous guide pour obtenir une copie de notre projet en fonctionnement sur votre machine locale à des fins de développement et de test.
+</p>
+<p align="center">Prérequis</p>
+<p align="justify">
+Assurez-vous d'avoir le logiciel suivant installé sur votre machine :
+</p>
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="25" height="25"/> <b>Python 3.8</b> ou supérieur
+<img src="https://www.svgrepo.com/show/354202/flask.svg" width="25" height="25"> <b>Flask</b>
+<p align="justify">
+1. Clonez le dépôt sur votre machine locale en exécutant la commande suivante dans votre terminal :
+</p>
+bash
+Copy code
+git clone https://github.com/ananas122/meal_price.git
+<p align="justify">
+2. Naviguez vers le répertoire où vous avez cloné le dépôt :
+</p>
+bash
+Copy code
+cd meal_price
+<p align="justify">
+3. Installez les dépendances :
+</p>
+bash
+Copy code
+pip install -r requirements.txt
+<p align="justify">
+4. Enfin, lancez le serveur avec :
+</p>
+bash
+Copy code
+python app.py
+<p align="justify">
+Ouvrez maintenant votre navigateur web et naviguez vers <a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a> pour voir l'application en fonctionnement.
+</p>
+<p align="center">Utilisation</p>
+<p align="justify">
+Maintenant que votre serveur est opérationnel, vous pouvez utiliser l'application :
+</p>
+Utilisez la barre de navigation en haut pour parcourir les différentes catégories d'ingrédients.
+Cliquez sur un ingrédient pour voir plus de détails.
+Ajoutez des ingrédients à votre calcul et déterminez le prix du repas.
+
+
