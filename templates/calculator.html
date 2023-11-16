@@ -1,3 +1,5 @@
+<!-- This HTML code represents a recipe price calculator web page. -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +14,21 @@
 <body>
 <img src="static/images/ing3.jpeg" alt="banniere calcul ingredients">
 
+  <!-- Title and user interface for selecting recipes -->
   <h1>Calculating the price of a recipe</h1>
   <label for="recipe-select">Select a recipe :</label>
   <select id="recipe-select">
-    <!-- Les options de recettes seront ajoutées dynamiquement via l'API -->
+    <!-- Recipe options will be dynamically added via the API -->
   </select>
   <button id="create-recipe-button">Create a new recipe</button>
+
+  <!-- Display of total cost and price per portion -->
   <h2>Ingrédients</h2>
   <button id="add-ingredient-button">Add an ingredient</button>
   <table id="recipeDetailsTable" class="display" style="width:100%">
     <thead>
       <tr>
-       <th>Ingredient name</th>
+        <th>Ingredient name</th>
         <th>Quantity Purchased</th>
         <th>Cost of Goods (€)</th>
         <th>Quantity Used</th>
@@ -33,21 +38,23 @@
     </thead>
     <tbody></tbody>
   </table>
+
   <h2>Total Cost: </h2>
   <input type="text" id="total-batch-cost" class="input-large" readonly>
   <h2>Price per portion:</h2>
   <input type="text" id="selling-price-per-serve" class="input-large">
   <button id="calculate-button">Calculate price</button>
 
+  <!-- Importing jQuery and DataTables for table management -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script>
     $(document).ready(function() {
       $('#recipeDetailsTable').DataTable();
-      displayRecipeList(); // Initialisation de la liste de recettes
+      displayRecipeList(); // Initializing the recipe list
     });
 
-    // Fonction pour récupérer la liste des recettes depuis l'API et remplir la liste déroulante
+    // Function to fetch the list of recipes from the API and populate the dropdown
     async function displayRecipeList() {
       const selectElement = $('#recipe-select');
       try {
@@ -57,14 +64,14 @@
           selectElement.append(new Option(meal.strMeal, meal.idMeal));
         });
       } catch (error) {
-        console.error("Erreur lors de la récupération de la liste des recettes: ", error);
+        console.error("Error fetching the recipe list: ", error);
       }
     }
 
-    // Fonction pour mettre à jour la table avec les détails d'une recette
+    // Function to update the table with the details of a selected recipe
     async function updateTableWithRecipe(recipeId) {
       const table = $('#recipeDetailsTable').DataTable();
-      table.clear(); // Nettoyer la table pour les nouvelles données
+      table.clear(); // Clearing the table for new data
       try {
         const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
         const data = await response.json();
@@ -85,11 +92,11 @@
           }
         }
       } catch (error) {
-        console.error("Erreur lors de la récupération des détails de la recette: ", error);
+        console.error("Error fetching recipe details: ", error);
       }
     }
 
-    // Fonction pour créer une nouvelle recette avec des champs vides
+    // Function to create a new recipe with empty fields
     function createNewRecipe() {
       const table = $('#recipeDetailsTable').DataTable();
       table.clear().draw();
@@ -105,13 +112,13 @@
       }
     }
 
-    // Événement lors de la sélection d'une recette
+    // Event when a recipe is selected
     $('#recipe-select').change(function() {
       const recipeId = $(this).val();
       updateTableWithRecipe(recipeId);
     });
 
-    // Événement pour ajouter un ingrédient
+    // Event to add an ingredient
     $('#add-ingredient-button').click(function() {
       const table = $('#recipeDetailsTable').DataTable();
       table.row.add([
@@ -124,7 +131,7 @@
       ]).draw(false);
     });
 
-    // Fonction pour calculer le coût total de la recette
+    // Function to calculate the total cost of the recipe
     $('#calculate-button').click(function() {
       const table = $('#recipeDetailsTable').DataTable();
       let totalBatchCost = 0;
@@ -139,7 +146,7 @@
       $('#total-batch-cost').val(totalBatchCost.toFixed(2));
     });
 
-    // Événement lors du clic sur le bouton "Créer une nouvelle recette"
+    // Event when the "Create a new recipe" button is clicked
     $('#create-recipe-button').click(createNewRecipe);
   </script>
 </body>
