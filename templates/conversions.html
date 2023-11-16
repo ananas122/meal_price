@@ -1,33 +1,35 @@
+<!-- This HTML code represents a conversion tool for weight and liquid units. -->
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>Convertor </title>
-  <!-- CSS pour Font Awesome, Dashboard et Boxicons -->
+  <!-- CSS for Font Awesome, Dashboard, and Boxicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="static/css/dashboard.css">
 
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-   <!-- Ajout de DataTables CSS -->
+   <!-- Adding DataTables CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
- <!-- Ajout de DataTables JS -->
+ <!-- Adding DataTables JS -->
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
 <style>
-/* Importation d'une police de Google Fonts */
+/* Importing a font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
-/* Styles globaux */
+/* Global styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f4; /* couleur de fond légère */
+    background-color: #f4f4f4; /* light background color */
 }
 
-/* Styles pour DataTables */
+/* Styles for DataTables */
 .dataTables_wrapper {
     width: 90%;
     margin: 0 auto;
@@ -38,49 +40,49 @@ body {
     overflow: hidden;
 }
 
-/* En-tête du tableau */
+/* Table header */
 table.dataTable thead th {
-    background-color: #565656; /* couleur de fond pour les en-têtes */
-    color: #ffffff; /* texte blanc pour le contraste */
+    background-color: #565656; /* background color for headers */
+    color: #ffffff; /* white text for contrast */
     font-weight: 500;
-    padding: 12px; /* plus d'espacement */
+    padding: 12px; /* more spacing */
 }
 
-/* Cellules du tableau */
+/* Table cells */
 table.dataTable tbody td {
-    padding: 10px; /* espacement confortable */
-    background-color: #ffffff; /* fond blanc pour le corps */
-    color: #333333; /* texte sombre pour le corps */
-    border-bottom: 1px solid #dddddd; /* séparateur subtil entre les lignes */
+    padding: 10px; /* comfortable spacing */
+    background-color: #ffffff; /* white background for body */
+    color: #333333; /* dark text for body */
+    border-bottom: 1px solid #dddddd; /* subtle separator between rows */
 }
 
-/* Survol des lignes */
+/* Row hover */
 table.dataTable tbody tr:hover {
-    background-color: #f2f2f2; /* couleur de surbrillance au survol */
+    background-color: #f2f2f2; /* highlight color on hover */
 }
 
 /* Pagination */
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 5px 10px;
-    background-color: #565656; /* couleur de fond pour la pagination */
-    color: white; /* texte blanc pour la pagination */
-    border-radius: 4px; /* coins arrondis */
+    background-color: #565656; /* background color for pagination */
+    color: white; /* white text for pagination */
+    border-radius: 4px; /* rounded corners */
     margin-left: 5px;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #424242; /* couleur de fond au survol */
+    background-color: #424242; /* background color on hover */
 }
 
-/* Affichage des informations sur le tableau */
+/* Table information display */
 .dataTables_wrapper .dataTables_info {
     font-size: 0.9em;
     padding-top: 10px;
 }
 
-/* Filtrage des entrées */
+/* Filtering of entries */
 .dataTables_wrapper .dataTables_filter {
-    float: right; /* positionner le filtre à droite */
+    float: right; /* position the filter to the right */
 }
 
 .dataTables_wrapper .dataTables_filter label {
@@ -89,12 +91,12 @@ table.dataTable tbody tr:hover {
 
 .dataTables_wrapper .dataTables_filter input {
     margin-left: 0.5em;
-    border: 1px solid #dddddd; /* bordure subtile pour l'entrée */
+    border: 1px solid #dddddd; /* subtle border for input */
     padding: 5px;
-    border-radius: 4px; /* coins arrondis pour l'entrée */
+    border-radius: 4px; /* rounded corners for input */
 }
 
-/* Assurez-vous que les styles sont réactifs */
+/* Ensure styles are responsive */
 @media screen and (max-width: 767px) {
     .dataTables_wrapper {
         width: 100%;
@@ -105,11 +107,11 @@ table.dataTable tbody tr:hover {
 </style>
 
 </head>
-  <img src="static/images/tab.jpeg" alt="banniere recette" width="600">
+  <img src="static/images/tab.jpeg" alt="banner" width="600">
 
 <body>
     <div class="sidebar">
-        <!-- Contenu de la sidebar -->
+        <!-- Sidebar content -->
     </div>
     <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
         <div>
@@ -125,29 +127,29 @@ table.dataTable tbody tr:hover {
   <tbody>
     <!-- Weight Conversion -->
     <tr>
-      <td>Kilogrammes (kg)</td>
+      <td>Kilograms (kg)</td>
       <td><input type="text" id="inputKg" oninput="convertFromKg()"/></td>
       <td id="outputKg"></td>
     </tr>
     <tr>
-      <td>Grammes (g)</td>
+      <td>Grams (g)</td>
       <td><input type="text" id="inputG" oninput="convertFromG()"/></td>
       <td id="outputG"></td>
     </tr>
     <tr>
-      <td>Onces (oz)</td>
+      <td>Ounces (oz)</td>
       <td><input type="text" id="inputOz" oninput="convertFromOz()"/></td>
       <td id="outputOz"></td>
     </tr>
     <tr>
-      <td>Libres (lbs)</td>
+      <td>Pounds (lbs)</td>
       <td><input type="text" id="inputLbs" oninput="convertFromLbs()"/></td>
       <td id="outputLbs"></td>
     </tr>
   </tbody>
 </table>
 
-<h2>"Liquid Units</h2>
+<h2>Liquid Units</h2>
 <table>
   <thead>
     <tr>
@@ -159,42 +161,42 @@ table.dataTable tbody tr:hover {
   <tbody>
     <!-- Liquid Conversion -->
 <tr>
-  <td>Litres (l)</td>
+  <td>Liters (l)</td>
   <td><input type="text" id="inputL" oninput="convertFromL()"/></td>
   <td id="outputL"></td>
 </tr>
 <tr>
-  <td>Décilitres (dl)</td>
+  <td>Deciliters (dl)</td>
   <td><input type="text" id="inputDl" oninput="convertFromDl()"/></td>
   <td id="outputDl"></td>
 </tr>
 <tr>
-  <td>Centilitres (cl)</td>
+  <td>Centiliters (cl)</td>
   <td><input type="text" id="inputCl" oninput="convertFromCl()"/></td>
   <td id="outputCl"></td>
 </tr>
 <tr>
-  <td>Millilitres (ml)</td>
+  <td>Milliliters (ml)</td>
   <td><input type="text" id="inputMl" oninput="convertFromMl()"/></td>
   <td id="outputMl"></td>
 </tr>
 <tr>
-  <td>Cuillères à soupe</td>
+  <td>Tablespoons</td>
   <td><input type="text" id="inputCuil" oninput="convertFromCuil()"/></td>
   <td id="outputCuil"></td>
 </tr>
 <tr>
-  <td>Tasses (US)</td>
+  <td>Cups (US)</td>
   <td><input type="text" id="inputTassesUs" oninput="convertFromTassesUs()"/></td>
   <td id="outputTassesUs"></td>
 </tr>
 <tr>
-  <td>Tasses (métrique)</td>
+  <td>Cups (metric)</td>
   <td><input type="text" id="inputTassesMetrique" oninput="convertFromTassesMetrique()"/></td>
   <td id="outputTassesMetrique"></td>
 </tr>
 <tr>
-  <td>Onces liquides (fl oz)</td>
+  <td>Fluid Ounces (fl oz)</td>
   <td><input type="text" id="inputFlOz" oninput="convertFromFlOz()"/></td>
   <td id="outputFlOz"></td>
 </tr>
@@ -239,10 +241,10 @@ table.dataTable tbody tr:hover {
   document.getElementById('outputMl').innerHTML = (l * 1000).toFixed(2) + ' ml';
   document.getElementById('outputDl').innerHTML = (l * 10).toFixed(2) + ' dl';
   document.getElementById('outputCl').innerHTML = (l * 100).toFixed(2) + ' cl';
-  document.getElementById('outputCuil').innerHTML = (l * 66.6667).toFixed(2) + ' cuillères à soupe';
-  document.getElementById('outputTassesUs').innerHTML = (l * 4.22675).toFixed(2) + ' tasses (US)';
-  document.getElementById('outputTassesMetrique').innerHTML = (l * 4).toFixed(2) + ' tasses (métrique)';
-  document.getElementById('outputFlOz').innerHTML = (l * 33.814).toFixed(2) + ' onces liquides (fl oz)';
+  document.getElementById('outputCuil').innerHTML = (l * 66.6667).toFixed(2) + ' tablespoons';
+  document.getElementById('outputTassesUs').innerHTML = (l * 4.22675).toFixed(2) + ' cups (US)';
+  document.getElementById('outputTassesMetrique').innerHTML = (l * 4).toFixed(2) + ' cups (metric)';
+  document.getElementById('outputFlOz').innerHTML = (l * 33.814).toFixed(2) + ' fluid ounces (fl oz)';
 }
 
 
