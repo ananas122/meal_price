@@ -100,4 +100,7 @@ Utilisez la barre de navigation en haut pour parcourir les différentes catégor
 Cliquez sur un ingrédient pour voir plus de détails.
 Ajoutez des ingrédients à votre calcul et déterminez le prix du repas.
 
-
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
