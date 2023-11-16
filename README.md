@@ -1,106 +1,223 @@
+<!---->
 
-
-
-<p align="center">Meal Price</p>
-
-<p align="center">
-<img width="100%" src="https://github.com/ananas122/meal_price/static/img-src/meal_price_screenshot.png">
-</p>
-Ce projet est le résultat des efforts collaboratifs de Votre Nom dans le cadre de notre projet de fin de première année à Votre École. Il a été exécuté sur une période de quatre semaines, mettant en évidence notre dévouement, notre organisation et notre travail technique. Vous pouvez consulter notre page d'atterrissage.
-
-1. Introduction
-
-Notre application, Meal Price, développée avec le framework Flask, fournit une plateforme complète pour créer et gérer un système de calcul de prix de repas. Cette application offre une liste de catégories d'ingrédients, des informations détaillées sur chaque élément, et une fonction de recherche pour faciliter la navigation.
-
-Conçue pour la convivialité des utilisateurs et la facilité de gestion, notre application permet aux utilisateurs de parcourir les ingrédients, de les ajouter à leur calcul et de déterminer le prix des repas avec facilité.
-
-2. Langages et technologies utilisés
-
-Le développement de notre application s'est principalement basé sur les langages et technologies suivants :
-
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="25" height="25"/> Python : Langage de programmation principal utilisé pour le développement backend.  
-
-<img src="https://www.svgrepo.com/show/354202/flask.svg" width="25" height="25"> Flask : Framework web basé sur Python.  
-
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="25" height="25"> HTML5 : Langage de balisage utilisé pour structurer et donner un sens au contenu web.  
-
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" width="25" height="25"> CSS3 : Langage de feuilles de style utilisé pour décrire l'apparence et la mise en forme du document HTML.  
-
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="25" height="25"> JavaScript : Langage de programmation utilisé pour rendre les pages web interactives.  
-
-
-3. Architecture et fonctionnement
+<div align="center">
+    <h1>MEAL_PRICE</h1>
+    <h3>◦ HTTPStatus Exception: 401</h3>
+    <h3>◦ Developed with the software and tools below.</h3>
+</div>
 
 <p align="center">
-<img width="100%" alt="Architecture de Meal Price" src="https://github.com/ananas122/meal_price/assets/architecture.png">
+  <a href="https://skillicons.dev">
+    <img src=https://skillicons.dev/icons?i=express,html,mongodb,py,supabase,git,github />
+  </a>
 </p>
-[Description de l'architecture de votre application, similaire à l'exemple fourni.]
+
+---
+
+##  Table of Contents
+- [ Table of Contents](#-table-of-contents)
+- [ Overview](#-overview)
+- [ Features](#-features)
+- [ repository Structure](#-repository-structure)
+- [ Modules](#modules)
+- [ Getting Started](#-getting-started)
+    - [ Installation](#-installation)
+    - [ Running meal_price](#-running-meal_price)
+    - [ Tests](#-tests)
+- [ Roadmap](#-roadmap)
+- [ Contributing](#-contributing)
+- [ License](#-license)
+- [ Acknowledgments](#-acknowledgments)
+
+---
 
 
+##  Overview
 
-<p align="center">4. Fonctionnalités</p>
+HTTPStatus Exception: 401
 
-<p align="justify">
-L'application <b>Meal Price</b> dispose de plusieurs fonctionnalités attrayantes qui améliorent l'expérience utilisateur et facilitent les tâches de gestion :
-</p>
-🍲 <b>Vue des Ingrédients</b> : Permet aux utilisateurs de parcourir tous les ingrédients disponibles.  
+---
 
-📝 <b>Détails des Ingrédients</b> : Offre des informations détaillées sur un ingrédient spécifique.
-🔍 <b>Recherche</b> : Permet aux utilisateurs de rechercher des ingrédients en utilisant des mots-clés.
-🛒 <b>Gestion du Calcul</b> : Fournit aux utilisateurs la possibilité d'ajouter des ingrédients à leur calcul et de déterminer le prix du repas.  
+##  Features
 
-<p align="center">5. Tests</p>
+HTTPStatus Exception: 401
 
-<p align="justify">
-L'application dispose d'une suite complète de tests unitaires couvrant chaque section. Nous avons configuré des tests pour les ingrédients, les formules de calcul, et plus encore.
-</p>
-<p align="center">6. Installation et Utilisation</p>
+---
 
-<p align="justify">
-Cette section vous guide pour obtenir une copie de notre projet en fonctionnement sur votre machine locale à des fins de développement et de test.
-</p>
-<p align="center">Prérequis</p>
-<p align="justify">
-Assurez-vous d'avoir le logiciel suivant installé sur votre machine :
-</p>
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="25" height="25"/> <b>Python 3.8</b> ou supérieur
-<img src="https://www.svgrepo.com/show/354202/flask.svg" width="25" height="25"> <b>Flask</b>
-<p align="justify">
-1. Clonez le dépôt sur votre machine locale en exécutant la commande suivante dans votre terminal :
-</p>
-bash
-Copy code
-git clone https://github.com/ananas122/meal_price.git
-<p align="justify">
-2. Naviguez vers le répertoire où vous avez cloné le dépôt :
-</p>
-bash
-Copy code
-cd meal_price
-<p align="justify">
-3. Installez les dépendances :
-</p>
-bash
-Copy code
-pip install -r requirements.txt
-<p align="justify">
-4. Enfin, lancez le serveur avec :
-</p>
-bash
-Copy code
-python app.py
-<p align="justify">
-Ouvrez maintenant votre navigateur web et naviguez vers <a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a> pour voir l'application en fonctionnement.
-</p>
-<p align="center">Utilisation</p>
-<p align="justify">
-Maintenant que votre serveur est opérationnel, vous pouvez utiliser l'application :
-</p>
-Utilisez la barre de navigation en haut pour parcourir les différentes catégories d'ingrédients.
-Cliquez sur un ingrédient pour voir plus de détails.
-Ajoutez des ingrédients à votre calcul et déterminez le prix du repas.
 
-```bash
-python manage.py makemigrations
-python manage.py migrate
+##  Repository Structure
+
+```sh
+└── meal_price/
+    ├── app.py
+    ├── flask_session/
+    │   ├── 2029240f6d1128be89ddc32729463129
+    │   └── 455cf3a19123f71af15adb2dceaa1a02
+    ├── index.html
+    ├── mp_db.sql
+    ├── mp_db_dump.sql
+    ├── package-lock.json
+    ├── package.json
+    ├── requirements.txt
+    ├── start-scripts.json
+    ├── templates/
+    │   ├── calculator.html
+    │   ├── calendar.html
+    │   ├── conversions.html
+    │   ├── dashboard.html
+    │   ├── index.html
+    │   ├── index1.html
+    │   ├── ingredients.html
+    │   ├── login.html
+    │   ├── main_page.html
+    │   └── recettes.html
+    └── vercel.json
+
 ```
+
+---
+
+
+##  Modules
+
+<details closed><summary>Root</summary>
+
+| File                                                                                       | Summary                   |
+| ---                                                                                        | ---                       |
+| [index.html](https://github.com/ananas122/meal_price/blob/main/index.html)                 | HTTPStatus Exception: 401 |
+| [vercel.json](https://github.com/ananas122/meal_price/blob/main/vercel.json)               | HTTPStatus Exception: 401 |
+| [requirements.txt](https://github.com/ananas122/meal_price/blob/main/requirements.txt)     | HTTPStatus Exception: 401 |
+| [start-scripts.json](https://github.com/ananas122/meal_price/blob/main/start-scripts.json) | HTTPStatus Exception: 401 |
+| [package-lock.json](https://github.com/ananas122/meal_price/blob/main/package-lock.json)   | HTTPStatus Exception: 401 |
+| [package.json](https://github.com/ananas122/meal_price/blob/main/package.json)             | HTTPStatus Exception: 401 |
+| [app.py](https://github.com/ananas122/meal_price/blob/main/app.py)                         | HTTPStatus Exception: 401 |
+| [mp_db_dump.sql](https://github.com/ananas122/meal_price/blob/main/mp_db_dump.sql)         | HTTPStatus Exception: 401 |
+| [mp_db.sql](https://github.com/ananas122/meal_price/blob/main/mp_db.sql)                   | HTTPStatus Exception: 401 |
+
+</details>
+
+<details closed><summary>Templates</summary>
+
+| File                                                                                             | Summary                   |
+| ---                                                                                              | ---                       |
+| [recettes.html](https://github.com/ananas122/meal_price/blob/main/templates/recettes.html)       | HTTPStatus Exception: 401 |
+| [index.html](https://github.com/ananas122/meal_price/blob/main/templates/index.html)             | HTTPStatus Exception: 401 |
+| [calendar.html](https://github.com/ananas122/meal_price/blob/main/templates/calendar.html)       | HTTPStatus Exception: 401 |
+| [main_page.html](https://github.com/ananas122/meal_price/blob/main/templates/main_page.html)     | HTTPStatus Exception: 401 |
+| [ingredients.html](https://github.com/ananas122/meal_price/blob/main/templates/ingredients.html) | HTTPStatus Exception: 401 |
+| [login.html](https://github.com/ananas122/meal_price/blob/main/templates/login.html)             | HTTPStatus Exception: 401 |
+| [dashboard.html](https://github.com/ananas122/meal_price/blob/main/templates/dashboard.html)     | HTTPStatus Exception: 401 |
+| [calculator.html](https://github.com/ananas122/meal_price/blob/main/templates/calculator.html)   | HTTPStatus Exception: 401 |
+| [conversions.html](https://github.com/ananas122/meal_price/blob/main/templates/conversions.html) | HTTPStatus Exception: 401 |
+| [index1.html](https://github.com/ananas122/meal_price/blob/main/templates/index1.html)           | HTTPStatus Exception: 401 |
+
+</details>
+
+---
+
+##  Getting Started
+
+***Dependencies***
+
+Please ensure you have the following dependencies installed on your system:
+
+`- ℹ️ Dependency 1`
+
+`- ℹ️ Dependency 2`
+
+`- ℹ️ ...`
+
+###  Installation
+
+1. Clone the meal_price repository:
+```sh
+git clone https://github.com/ananas122/meal_price
+```
+
+2. Change to the project directory:
+```sh
+cd meal_price
+```
+
+3. Install the dependencies:
+```sh
+► INSERT-TEXT
+```
+
+###  Running meal_price
+
+```sh
+► INSERT-TEXT
+```
+
+###  Tests
+```sh
+► INSERT-TEXT
+```
+
+---
+
+
+##  Project Roadmap
+
+> - [X] `ℹ️  Task 1: Implement X`
+> - [ ] `ℹ️  Task 2: Implement Y`
+> - [ ] `ℹ️ ...`
+
+
+---
+
+##  Contributing
+
+Contributions are welcome! Here are several ways you can contribute:
+
+- **[Submit Pull Requests](https://github.com/ananas122/meal_price/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
+- **[Join the Discussions](https://github.com/ananas122/meal_price/discussions)**: Share your insights, provide feedback, or ask questions.
+- **[Report Issues](https://github.com/ananas122/meal_price/issues)**: Submit bugs found or log feature requests for ANANAS122.
+
+#### *Contributing Guidelines*
+
+<details closed>
+<summary>Click to expand</summary>
+
+1. **Fork the Repository**: Start by forking the project repository to your GitHub account.
+2. **Clone Locally**: Clone the forked repository to your local machine using a Git client.
+   ```sh
+   git clone <your-forked-repo-url>
+   ```
+3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
+   ```sh
+   git checkout -b new-feature-x
+   ```
+4. **Make Your Changes**: Develop and test your changes locally.
+5. **Commit Your Changes**: Commit with a clear and concise message describing your updates.
+   ```sh
+   git commit -m 'Implemented new feature x.'
+   ```
+6. **Push to GitHub**: Push the changes to your forked repository.
+   ```sh
+   git push origin new-feature-x
+   ```
+7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and their motivations.
+
+Once your PR is reviewed and approved, it will be merged into the main branch.
+
+</details>
+
+---
+
+##  License
+
+
+This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
+
+---
+
+##  Acknowledgments
+
+- List any resources, contributors, inspiration, etc. here.
+
+[**Return**](#Top)
+
+---
+
