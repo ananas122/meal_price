@@ -89,6 +89,7 @@
             table = $('#productsTable').DataTable();
         });
 
+        // Function to search for a product
         function searchProduct() {
             var query = $('#searchQuery').val();
             if (query) {
@@ -110,6 +111,7 @@
             }
         }
 
+        // Function to update the table with product data
         function updateTable(products) {
             table.clear();
             products.forEach(product => {
@@ -124,6 +126,7 @@
             table.draw();
         }
 
+        // Function to save the price of a product
         function savePrice(productId) {
             var priceId = 'price-' + productId;
             var price = $('#' + priceId).val();
